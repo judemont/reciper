@@ -10,6 +10,7 @@ class NewRecipePage extends StatefulWidget {
 }
 
 class _NewRecipePageState extends State<NewRecipePage> {
+  final double fieldsMargin = 30.0;
   final formKey = GlobalKey<FormState>();
   String title = "";
   String ingredients = "";
@@ -55,7 +56,7 @@ class _NewRecipePageState extends State<NewRecipePage> {
                     hintText: 'Title',
                   ),
                 ),
-                const SizedBox(height: 50),
+                SizedBox(height: fieldsMargin),
                 TextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -73,7 +74,7 @@ class _NewRecipePageState extends State<NewRecipePage> {
                     hintText: 'Ingredients',
                   ),
                 ),
-                const SizedBox(height: 50),
+                SizedBox(height: fieldsMargin),
                 TextFormField(
                   validator: (value) {
                     if (value!.isEmpty) {
