@@ -56,14 +56,6 @@ class DatabaseService {
           ingredients TEXT
       )
     """);
-    database.insert(
-        "Recipes",
-        Recipe(
-                steps:
-                    "-Faire fondre le beur a 180C -Attendre que le beure refroidisse -Manger",
-                title: "Beure au beure",
-                ingredients: "Beure")
-            .toMap());
   }
 
   static Future<int> createRecipe(Recipe recipe) async {
