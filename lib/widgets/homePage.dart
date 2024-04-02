@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Recipe> recipes = [];
+  bool selecting = false;
 
   @override
   void initState() {
@@ -24,16 +25,18 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Reciper"),
+        title: const Text("Reciper"),
         centerTitle: true,
+        actions: [
+          if (selecting)
+            IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
+        ],
       ),
       floatingActionButton: NewRecipeButton(reloadRecipes: loadRecipes),
-      body: Container(
-        margin: const EdgeInsets.only(left: 30),
-        child: SingleChildScrollView(
-          child: RecipeListView(
-            recipes: recipes,
-          ),
+      body: SingleChildScrollView(
+        child: RecipeListView(
+          recipes: recipes,
+          setSelecting: setSelecting,
         ),
       ),
     );
@@ -46,6 +49,12 @@ class _HomePageState extends State<HomePage> {
         print(recipes);
         recipes = result;
       });
+    });
+  }
+
+  Future<void> setSelecting(bool value) async {
+    setState(() {
+      selecting = value;
     });
   }
 }
