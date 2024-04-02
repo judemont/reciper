@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: NewRecipeButton(reloadRecipes: loadRecipes),
       body: SingleChildScrollView(
         child: RecipeListView(
+          reloadRecipes: loadRecipes,
           recipes: recipes,
           onRecipesSelectionUpdate: onRecipesSelectionUpdate,
           selectedRecipesID: selectedRecipes,

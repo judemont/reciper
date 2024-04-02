@@ -6,11 +6,13 @@ class RecipeListView extends StatefulWidget {
   final List<Recipe> recipes;
   final List<int> selectedRecipesID;
   Function(List<int>) onRecipesSelectionUpdate;
+  Function reloadRecipes;
   RecipeListView(
       {super.key,
       required this.recipes,
       required this.onRecipesSelectionUpdate,
-      required this.selectedRecipesID});
+      required this.selectedRecipesID,
+      required this.reloadRecipes});
 
   @override
   State<RecipeListView> createState() => _RecipeListViewState();
@@ -51,8 +53,11 @@ class _RecipeListViewState extends State<RecipeListView> {
               } else {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (context) =>
-                          RecipeViewPage(recipe: widget.recipes[index])),
+                    builder: (context) => RecipeViewPage(
+                      recipe: widget.recipes[index],
+                      reloadRecipes: widget.reloadRecipes,
+                    ),
+                  ),
                 );
               }
 

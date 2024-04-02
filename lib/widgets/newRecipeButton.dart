@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'newRecipePage.dart';
+import 'RecipeEditorPage.dart';
 
 class NewRecipeButton extends StatefulWidget {
   final Function reloadRecipes;
@@ -17,7 +17,7 @@ class _NewRecipeButtonState extends State<NewRecipeButton> {
       onPressed: () {
         Navigator.of(context)
             .push(
-              MaterialPageRoute(builder: (context) => const NewRecipePage()),
+              MaterialPageRoute(builder: (context) => const RecipeEditorPage()),
             )
             .then((value) => widget.reloadRecipes());
       },

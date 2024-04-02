@@ -39,6 +39,7 @@ dependencies:
   path_provider: ^2.1.2
   sqflite: ^2.3.2
   encrypt: ^5.0.3
+  marmiteur: ^3.0.0
 
 dev_dependencies:
   flutter_test:

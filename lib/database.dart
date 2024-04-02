@@ -103,7 +103,7 @@ class DatabaseService {
 
   static Future<void> updateRecipe(Recipe recipe) async {
     final db = await DatabaseService.initializeDb();
-    db.update("Recipe", recipe.toMap(),
+    db.update("Recipes", recipe.toMap(),
         where: 'id = ?', whereArgs: [recipe.id]);
   }
 

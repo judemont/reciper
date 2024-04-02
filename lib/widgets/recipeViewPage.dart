@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:reciper/widgets/RecipeEditorPage.dart';
 import '../models/recipe.dart';
 
 class RecipeViewPage extends StatefulWidget {
   final Recipe recipe;
-  const RecipeViewPage({super.key, required this.recipe});
+  final Function reloadRecipes;
+  const RecipeViewPage(
+      {super.key, required this.recipe, required this.reloadRecipes});
   @override
   State<RecipeViewPage> createState() => _RecipeViewPageState();
 }
@@ -27,7 +30,23 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
         appBar: AppBar(
           title: const Text("Reciper"),
           centerTitle: true,
-          actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.edit))],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                            builder: (context) => RecipeEditorPage(
+                                  initialTitle: widget.recipe.title,
+                                  initialIngredients: widget.recipe.ingredients,
+                                  initialSteps: widget.recipe.steps,
+                                  recipeID: widget.recipe.id,
+                                )),
+                      )
+                      .then((value) => widget.reloadRecipes());
+                },
+                icon: const Icon(Icons.edit))
+          ],
         ),
         body: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),

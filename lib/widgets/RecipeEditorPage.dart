@@ -2,14 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:reciper/database.dart';
 import 'package:reciper/models/recipe.dart';
 
-class NewRecipePage extends StatefulWidget {
-  const NewRecipePage({super.key});
+class RecipeEditorPage extends StatefulWidget {
+  final String initialTitle;
+  final String initialIngredients;
+  final String initialSteps;
+  final int? recipeID;
+  const RecipeEditorPage(
+      {super.key,
+      this.initialTitle = "",
+      this.initialIngredients = "",
+      this.initialSteps = "",
+      this.recipeID});
 
   @override
-  State<NewRecipePage> createState() => _NewRecipePageState();
+  State<RecipeEditorPage> createState() => _RecipeEditorPageState();
 }
 
-class _NewRecipePageState extends State<NewRecipePage> {
+class _RecipeEditorPageState extends State<RecipeEditorPage> {
   final double fieldsMargin = 30.0;
   final formKey = GlobalKey<FormState>();
   String title = "";
@@ -27,8 +36,20 @@ class _NewRecipePageState extends State<NewRecipePage> {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
-                    DatabaseService.createRecipe(Recipe(
-                        title: title, steps: steps, ingredients: ingredients));
+                    if (widget.recipeID == null) {
+                      print("NEW RECIPE");
+                      DatabaseService.createRecipe(Recipe(
+                          title: title,
+                          steps: steps,
+                          ingredients: ingredients));
+                    } else {
+                      print("RECIPE UPDATE");
+                      DatabaseService.updateRecipe(Recipe(
+                          id: widget.recipeID,
+                          title: title,
+                          steps: steps,
+                          ingredients: ingredients));
+                    }
                     Navigator.pop(context);
                   }
                 },
@@ -42,6 +63,7 @@ class _NewRecipePageState extends State<NewRecipePage> {
             child: Column(
               children: [
                 TextFormField(
+                  initialValue: widget.initialTitle,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter something.';
@@ -58,6 +80,7 @@ class _NewRecipePageState extends State<NewRecipePage> {
                 ),
                 SizedBox(height: fieldsMargin),
                 TextFormField(
+                  initialValue: widget.initialIngredients,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter something.';
@@ -76,6 +99,7 @@ class _NewRecipePageState extends State<NewRecipePage> {
                 ),
                 SizedBox(height: fieldsMargin),
                 TextFormField(
+                  initialValue: widget.initialSteps,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter something.';
