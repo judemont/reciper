@@ -9,6 +9,9 @@ class RecipeViewPage extends StatefulWidget {
 }
 
 class _RecipeViewPageState extends State<RecipeViewPage> {
+  Map<int, bool> checkboxValuesIngredients = {};
+  Map<int, bool> checkboxValuesSteps = {};
+
   @override
   Widget build(BuildContext context) {
     List<String> ingredientsList = widget.recipe.ingredients.split("\n");
@@ -21,51 +24,61 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Reciper"),
-        centerTitle: true,
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.edit))],
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            widget.recipe.title,
-            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          const Text(
-            "Ingredients :",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: ingredientsList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    value: false,
-                    title: Text(ingredientsList[index]),
-                    onChanged: (value) {});
-              }),
-          const Text(
-            "Steps :",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: stepsList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    value: false,
-                    title: Text(stepsList[index]),
-                    onChanged: (value) {});
-              }),
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: const Text("Reciper"),
+          centerTitle: true,
+          actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.edit))],
+        ),
+        body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  widget.recipe.title,
+                  style: const TextStyle(
+                      fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const Text(
+                  "Ingredients :",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: ingredientsList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CheckboxListTile(
+                          controlAffinity: ListTileControlAffinity.leading,
+                          value: checkboxValuesIngredients[index] ?? false,
+                          title: Text(ingredientsList[index]),
+                          onChanged: (value) {
+                            setState(() {
+                              checkboxValuesIngredients[index] = value!;
+                            });
+                          });
+                    }),
+                const Text(
+                  "Steps :",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: stepsList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CheckboxListTile(
+                          controlAffinity: ListTileControlAffinity.leading,
+                          value: checkboxValuesSteps[index] ?? false,
+                          title: Text(stepsList[index]),
+                          onChanged: (value) {
+                            setState(() {
+                              checkboxValuesSteps[index] = value!;
+                            });
+                          });
+                    }),
+              ],
+            )));
   }
 }
