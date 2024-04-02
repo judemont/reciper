@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reciper/widgets/extractRecipeButton.dart';
 import 'newRecipeButton.dart';
 import '../database.dart';
 import '../models/recipe.dart';
@@ -39,7 +40,14 @@ class _HomePageState extends State<HomePage> {
                 icon: const Icon(Icons.delete)),
         ],
       ),
-      floatingActionButton: NewRecipeButton(reloadRecipes: loadRecipes),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          ExtractRecipeButton(reloadRecipes: loadRecipes),
+          SizedBox(height: 10),
+          NewRecipeButton(reloadRecipes: loadRecipes),
+        ],
+      ),
       body: SingleChildScrollView(
         child: RecipeListView(
           reloadRecipes: loadRecipes,

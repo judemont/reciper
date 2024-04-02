@@ -18,10 +18,13 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
   @override
   Widget build(BuildContext context) {
     List<String> ingredientsList = widget.recipe.ingredients.split("\n");
+    ingredientsList.removeWhere((element) => element == "");
+
     if (ingredientsList.isEmpty) {
       ingredientsList.add(widget.recipe.ingredients);
     }
     List<String> stepsList = widget.recipe.steps.split("\n");
+    stepsList.removeWhere((element) => element == "");
     if (stepsList.isEmpty) {
       stepsList.add(widget.recipe.ingredients);
     }
