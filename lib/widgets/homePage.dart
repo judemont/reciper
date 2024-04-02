@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(selectedRecipes);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Reciper"),
@@ -69,8 +70,8 @@ class _HomePageState extends State<HomePage> {
     DatabaseService.removeRecipe(id);
   }
 
-  Future<void> removeSelectedRecipes(List<int> selectedRecipes) async {
-    for (var recipeID in selectedRecipes) {
+  Future<void> removeSelectedRecipes(List<int> values) async {
+    for (var recipeID in values) {
       deleteRecipe(recipeID);
     }
     setState(() {
