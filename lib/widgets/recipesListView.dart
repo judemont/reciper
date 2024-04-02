@@ -4,19 +4,22 @@ import '../models/recipe.dart';
 
 class RecipeListView extends StatefulWidget {
   final List<Recipe> recipes;
-  Function setSelecting;
+  final List<int> selectedRecipesID;
+  Function(List<int>) onRecipesSelectionUpdate;
   RecipeListView(
-      {super.key, required this.recipes, required this.setSelecting});
+      {super.key,
+      required this.recipes,
+      required this.onRecipesSelectionUpdate,
+      required this.selectedRecipesID});
 
   @override
   State<RecipeListView> createState() => _RecipeListViewState();
 }
 
 class _RecipeListViewState extends State<RecipeListView> {
-  Map<int, bool> selectedTiles = {};
-
   @override
   Widget build(BuildContext context) {
+    List<int> selectedRecipesID = widget.selectedRecipesID;
     print(widget.recipes);
     return Wrap(children: [
       ListView.builder(
@@ -25,33 +28,35 @@ class _RecipeListViewState extends State<RecipeListView> {
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             title: Text(widget.recipes[index].title),
-            selected: selectedTiles[index] ?? false,
+            selected: selectedRecipesID.contains(widget.recipes[index].id),
             selectedColor: Colors.white,
             selectedTileColor: const Color.fromARGB(255, 63, 63, 63),
             onLongPress: () {
-              setState(() {
-                selectedTiles[index] = !(selectedTiles[index] ?? false);
-                widget.setSelecting(selectedTiles.containsValue(true));
-              });
+              if (selectedRecipesID.contains(widget.recipes[index].id)) {
+                selectedRecipesID.remove(widget.recipes[index].id);
+              } else {
+                selectedRecipesID.add(widget.recipes[index].id!);
+              }
+              widget.onRecipesSelectionUpdate(selectedRecipesID);
 
-              print(selectedTiles);
+              print(selectedRecipesID);
             },
             onTap: () {
-              print(selectedTiles);
-              setState(() {
-                if (selectedTiles[index] ?? false) {
-                  selectedTiles[index] = false;
-                  widget.setSelecting(selectedTiles.containsValue(true));
-                } else if (selectedTiles.containsValue(true)) {
-                  selectedTiles[index] = true;
-                } else {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            RecipeViewPage(recipe: widget.recipes[index])),
-                  );
-                }
-              });
+              print(selectedRecipesID);
+
+              if (selectedRecipesID.contains(widget.recipes[index].id!)) {
+                selectedRecipesID.remove(widget.recipes[index].id!);
+              } else if (selectedRecipesID.isNotEmpty) {
+                selectedRecipesID.add(widget.recipes[index].id!);
+              } else {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          RecipeViewPage(recipe: widget.recipes[index])),
+                );
+              }
+
+              widget.onRecipesSelectionUpdate(selectedRecipesID);
             },
           );
         },

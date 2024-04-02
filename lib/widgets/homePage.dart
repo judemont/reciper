@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Recipe> recipes = [];
-  bool selecting = false;
+  List<int> selectedRecipes = [];
 
   @override
   void initState() {
@@ -28,15 +28,22 @@ class _HomePageState extends State<HomePage> {
         title: const Text("Reciper"),
         centerTitle: true,
         actions: [
-          if (selecting)
-            IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
+          if (selectedRecipes.isNotEmpty)
+            IconButton(
+                onPressed: () {
+                  removeSelectedRecipes(selectedRecipes).then((value) {
+                    loadRecipes();
+                  });
+                },
+                icon: const Icon(Icons.delete)),
         ],
       ),
       floatingActionButton: NewRecipeButton(reloadRecipes: loadRecipes),
       body: SingleChildScrollView(
         child: RecipeListView(
           recipes: recipes,
-          setSelecting: setSelecting,
+          onRecipesSelectionUpdate: onRecipesSelectionUpdate,
+          selectedRecipesID: selectedRecipes,
         ),
       ),
     );
@@ -52,9 +59,22 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> setSelecting(bool value) async {
+  Future<void> onRecipesSelectionUpdate(List<int> values) async {
     setState(() {
-      selecting = value;
+      selectedRecipes = values;
+    });
+  }
+
+  Future<void> deleteRecipe(int id) async {
+    DatabaseService.removeRecipe(id);
+  }
+
+  Future<void> removeSelectedRecipes(List<int> selectedRecipes) async {
+    for (var recipeID in selectedRecipes) {
+      deleteRecipe(recipeID);
+    }
+    setState(() {
+      selectedRecipes = [];
     });
   }
 }
