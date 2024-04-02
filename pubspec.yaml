@@ -40,6 +40,14 @@ dependencies:
   sqflite: ^2.3.2
   encrypt: ^5.0.3
   marmiteur: ^3.0.0
+  flutter_launcher_icons: ^0.13.1
+
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon.png"
+
 
 dev_dependencies:
   flutter_test:
