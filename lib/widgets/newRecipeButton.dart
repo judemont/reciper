@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'RecipeEditorPage.dart';
+import 'recipeEditorPage.dart';
 
 class NewRecipeButton extends StatefulWidget {
   final Function reloadRecipes;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reciper/widgets/RecipeEditorPage.dart';
+import 'package:reciper/widgets/recipeEditorPage.dart';
 import '../models/recipe.dart';
 
 class RecipeViewPage extends StatefulWidget {
@@ -30,6 +30,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
     }
 
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text("Reciper"),
           centerTitle: true,
@@ -51,56 +52,59 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                 icon: const Icon(Icons.edit))
           ],
         ),
-        body: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.recipe.title,
-                  style: const TextStyle(
-                      fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                const Text(
-                  "Ingredients :",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: ingredientsList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return CheckboxListTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          value: checkboxValuesIngredients[index] ?? false,
-                          title: Text(ingredientsList[index]),
-                          onChanged: (value) {
-                            setState(() {
-                              checkboxValuesIngredients[index] = value!;
-                            });
-                          });
-                    }),
-                const Text(
-                  "Steps :",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: stepsList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return CheckboxListTile(
-                          controlAffinity: ListTileControlAffinity.leading,
-                          value: checkboxValuesSteps[index] ?? false,
-                          title: Text(stepsList[index]),
-                          onChanged: (value) {
-                            setState(() {
-                              checkboxValuesSteps[index] = value!;
-                            });
-                          });
-                    }),
-              ],
-            )));
+        body: SingleChildScrollView(
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.recipe.title,
+                      style: const TextStyle(
+                          fontSize: 30, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    const Text(
+                      "Ingredients :",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: ingredientsList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              value: checkboxValuesIngredients[index] ?? false,
+                              title: Text(ingredientsList[index]),
+                              onChanged: (value) {
+                                setState(() {
+                                  checkboxValuesIngredients[index] = value!;
+                                });
+                              });
+                        }),
+                    const Text(
+                      "Steps :",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: stepsList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CheckboxListTile(
+                              controlAffinity: ListTileControlAffinity.leading,
+                              value: checkboxValuesSteps[index] ?? false,
+                              title: Text(stepsList[index]),
+                              onChanged: (value) {
+                                setState(() {
+                                  checkboxValuesSteps[index] = value!;
+                                });
+                              });
+                        }),
+                  ],
+                ))));
   }
 }

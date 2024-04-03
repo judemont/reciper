@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marmiteur/marmiteur.dart';
 
-import 'RecipeEditorPage.dart';
+import 'recipeEditorPage.dart';
 
 class ExtractRecipeButton extends StatefulWidget {
   final Function reloadRecipes;

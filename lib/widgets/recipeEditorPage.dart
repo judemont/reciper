@@ -28,6 +28,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text("New Recipe"),
           centerTitle: true,
@@ -56,7 +57,8 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                 icon: const Icon(Icons.check))
           ],
         ),
-        body: Form(
+        body: SingleChildScrollView(
+            child: Form(
           key: formKey,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 56),
@@ -119,6 +121,6 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
               ],
             ),
           ),
-        ));
+        )));
   }
 }
