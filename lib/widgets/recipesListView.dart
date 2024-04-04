@@ -5,9 +5,9 @@ import '../models/recipe.dart';
 class RecipeListView extends StatefulWidget {
   final List<Recipe> recipes;
   final List<int> selectedRecipesID;
-  Function(List<int>) onRecipesSelectionUpdate;
-  Function reloadRecipes;
-  RecipeListView(
+  final Function(List<int>) onRecipesSelectionUpdate;
+  final Function reloadRecipes;
+  const RecipeListView(
       {super.key,
       required this.recipes,
       required this.onRecipesSelectionUpdate,
