@@ -32,7 +32,7 @@ jobs:
           version: 3.19.2
 
       - name: Install dependencies
-        run: flutter pub get --verbose 
+        run: flutter pub get
 
       - name: Analyze project source
         run: dart analyze
