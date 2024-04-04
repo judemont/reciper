@@ -28,7 +28,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           title: const Text("New Recipe"),
           centerTitle: true,
