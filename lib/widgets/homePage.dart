@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           ExtractRecipeButton(reloadRecipes: loadRecipes),
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           NewRecipeButton(reloadRecipes: loadRecipes),
         ],
       ),
