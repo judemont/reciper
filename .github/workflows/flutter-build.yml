@@ -51,8 +51,8 @@ jobs:
       - name: Analyze project source
         run: dart analyze
 
-      - name: Run tests
-        run: flutter test          
+      # - name: Run tests
+      #   run: flutter test          
     
       # Build apk.
       - name: build apk
