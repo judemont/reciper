@@ -103,7 +103,7 @@ jobs:
         run: flutter build appbundle
     
       - uses: ilharp/sign-android-release@v1
-        name: Sign app APK
+        name: Sign app Bundle
         id: sign_app_bundle
         with:
           releaseDir: build/app/outputs/bundle/release
