@@ -54,7 +54,7 @@ jobs:
         id: decode_keystore
         uses: timheuer/base64-to-file@v1
         with:
-          fileName: 'keystore/your_signing_keystore.jks'
+          fileName: 'keystore/keystore.jks'
           encodedString: ${{ secrets.KEYSTORE }}
       # - name: Run tests
       #   run: flutter test          
