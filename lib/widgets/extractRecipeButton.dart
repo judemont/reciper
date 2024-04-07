@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marmiteur/marmiteur.dart';
-
+import 'package:recipe_extractor/recipe_extractor.dart';
 import 'recipeEditorPage.dart';
 
 class ExtractRecipeButton extends StatefulWidget {
@@ -39,31 +38,30 @@ class _ExtractRecipeButtonState extends State<ExtractRecipeButton> {
               child: const Text('Cancel'),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 String recipeUrl = recipeSiteUrlController.text;
-                marmiteur(recipeUrl).then((value) {
-                  Navigator.pop(context, 'ok');
-                  if (value["name"] == null) {
-                    print("Failed to extract recipe");
-                    SnackBar errorBar = const SnackBar(
-                      content: Text("Failed to extract recipe"),
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(errorBar);
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RecipeEditorPage(
-                          initialTitle: value["name"],
-                          initialIngredients:
-                              ((value["recipeIngredients"]) ?? []).join("\n"),
-                          initialSteps:
-                              ((value["recipeInstructions"]) ?? []).join("\n"),
-                        ),
+                RecipeData recipeData = await extractRecipe(recipeUrl);
+                Navigator.pop(context, 'ok');
+                if (recipeData.name == null) {
+                  print("Failed to extract recipe");
+                  SnackBar errorBar = const SnackBar(
+                    content: Text("Failed to extract recipe"),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(errorBar);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RecipeEditorPage(
+                        initialTitle: recipeData.name ?? "",
+                        initialIngredients:
+                            (recipeData.ingredients ?? []).join("\n"),
+                        initialSteps:
+                            (recipeData.instructions ?? []).join("\n"),
                       ),
-                    ).then((value) => widget.reloadRecipes());
-                  }
-                });
+                    ),
+                  ).then((value) => widget.reloadRecipes());
+                }
               },
               child: const Text('OK'),
             ),

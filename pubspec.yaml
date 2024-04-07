@@ -43,6 +43,7 @@ dependencies:
   marmiteur: ^3.0.0
   flutter_launcher_icons: ^0.13.1
   path: ^1.9.0
+  recipe_extractor: ^2.0.0
 
 
 flutter_icons:

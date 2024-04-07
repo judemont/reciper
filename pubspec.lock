@@ -371,6 +371,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.7.4"
+  recipe_extractor:
+    dependency: "direct main"
+    description:
+      name: recipe_extractor
+      sha256: "54c260e464e82ea4e4c50d6e408b68939df7338205a6298b059001409456b671"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
