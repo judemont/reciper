@@ -72,6 +72,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: ingredientsList.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -91,6 +92,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: stepsList.length,
                         itemBuilder: (BuildContext context, int index) {
