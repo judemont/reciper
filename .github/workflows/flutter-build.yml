@@ -57,12 +57,9 @@ jobs:
       # Build apk.
       - name: build apk
         run: flutter build apk
-
-      - name: build appbundle
-        run: flutter build appbundle
     
       - uses: ilharp/sign-android-release@v1
-        name: Sign app
+        name: Sign app APK
         id: sign_app
         with:
           releaseDir: build/app/outputs/apk/release
@@ -72,55 +69,37 @@ jobs:
           keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
           buildToolsVersion: 33.0.0
 
-      - uses: jungwinter/split@v2
-        id: signed_files
-        with:
-          msg: ${{ steps.sign_app.outputs.signedFiles }}
-          separator: ':'
-
 
       # Upload generated apk to the artifacts.
-      # - name: relase output 
-      #   uses: actions/upload-artifact@v1
-      #   with:
-      #     name: release-apk
-      #     path: build/app/outputs/apk/release/app-release.apk
-
-      # - name: create-release
-      #   id: create_release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITUB_TOKEN }}
-      #   with:
-      #     tag_name:  v${{ steps.version.outputs.version }}
-      #     release_name: Release ${{ steps.version.outputs.version }}
-      #     draft: true
-      #     prerelease: false
-  
-      # - name: Upload release asset
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #     asset_path: ${{steps.sign_app.outputs.signedFile}}
-      #     asset_name: reciper-release-${{ steps.version.outputs.version }}.apk
-      #     asset_content_type: application/apk
-      # - name: Publish release
-      #   uses: eregon/publish-release@v1.0.6
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITUB_TOKEN }}
-      #   with:
-      #     release_id: ${{ steps.create_release.outputs.id }}
-
-
-      - name: Release
-        uses: "marvinpinto/action-automatic-releases@latest"
+      - name: relase output 
+        uses: actions/upload-artifact@v1
         with:
-          repo_token: "${{ secrets.GITUB_TOKEN }}"
-          automatic_release_tag: V${{ steps.version.outputs.version }}
+          name: release-apk
+          path: build/app/outputs/apk/release/app-release.apk
+
+      - name: create-release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITUB_TOKEN }}
+        with:
+          tag_name:  v${{ steps.version.outputs.version }}
+          release_name: Release ${{ steps.version.outputs.version }}
+          draft: true
           prerelease: false
-          title: Release ${{ steps.version.outputs.version }}
-          files: |
-            ${{ steps.signed_files.outputs._0 }}
-            ${{ steps.signed_files.outputs._1 }}
+  
+      - name: Upload release asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{steps.sign_app.outputs.signedFile}}
+          asset_name: reciper-release-${{ steps.version.outputs.version }}.apk
+          asset_content_type: application/apk
+      - name: Publish release
+        uses: eregon/publish-release@v1.0.6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITUB_TOKEN }}
+        with:
+          release_id: ${{ steps.create_release.outputs.id }}
