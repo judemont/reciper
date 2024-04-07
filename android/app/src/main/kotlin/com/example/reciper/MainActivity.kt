@@ -1,4 +1,4 @@
-package com.example.reciper
+package jdm.apps.reciper
 
 import io.flutter.embedding.android.FlutterActivity
 
