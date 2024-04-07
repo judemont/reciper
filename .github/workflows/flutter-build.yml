@@ -71,11 +71,11 @@ jobs:
 
 
       # Upload generated apk to the artifacts.
-      - name: relase output 
-        uses: actions/upload-artifact@v1
-        with:
-          name: release-apk
-          path: build/app/outputs/apk/release/app-release.apk
+      # - name: relase output 
+      #   uses: actions/upload-artifact@v1
+      #   with:
+      #     name: release-apk
+      #     path: build/app/outputs/apk/release/app-release.apk
 
       - name: create-release
         id: create_release
@@ -94,9 +94,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{steps.sign_app.outputs.signedFile}}
+          asset_path: "build/app/outputs/apk/release/app-release.apk"
           asset_name: reciper-release-${{ steps.version.outputs.version }}.apk
           asset_content_type: application/apk
+        
       - name: Publish release
         uses: eregon/publish-release@v1.0.6
         env:
