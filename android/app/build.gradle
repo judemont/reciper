@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.reciper"
+    namespace "jdm.apps.reciper"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
