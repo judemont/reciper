@@ -22,10 +22,8 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-
-
 android {
-    namespace "jdm.apps.reciper"
+    namespace "com.example.reciper"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
@@ -44,7 +42,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "jdm.apps.reciper"
+        applicationId "com.example.reciper"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion flutter.minSdkVersion
@@ -53,28 +51,13 @@ android {
         versionName flutterVersionName
     }
 
-    signingConfigs {
+    buildTypes {
         release {
-            def tmpFilePath = System.getProperty("user.home") + "/work/_temp/"
-            def allFilesFromDir = new File(tmpFilePath).listFiles()
-
-            if (allFilesFromDir != null) {
-                def keystoreFile = allFilesFromDir.first()
-                keystoreFile.renameTo("keystore.jks")
-            }
-
-            storeFile = file("keystore.jks")
-            storePassword System.getenv("SIGNING_STORE_PASSWORD")
-            keyAlias System.getenv("SIGNING_KEY_ALIAS")
-            keyPassword System.getenv("SIGNING_KEY_PASSWORD")
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.debug
         }
     }
-   buildTypes {
-       release {
-           signingConfig signingConfigs.release
-       }
-   }
-
 }
 
 flutter {
