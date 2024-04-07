@@ -58,6 +58,18 @@ jobs:
       - name: build apk
         run: flutter build apk
     
+      - uses: ilharp/sign-android-release@v1
+        name: Sign app APK
+        id: sign_app
+        with:
+          releaseDir: app/build/outputs/apk/release
+          signingKey: ${{ secrets.KEYSTORE }}
+          keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          buildToolsVersion: 33.0.0
+
+
       # Upload generated apk to the artifacts.
       - name: relase output 
         uses: actions/upload-artifact@v1
