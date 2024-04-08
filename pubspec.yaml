@@ -40,10 +40,11 @@ dependencies:
   path_provider: ^2.1.2
   sqflite: ^2.3.2
   encrypt: ^5.0.3
-  marmiteur: ^3.0.0
   flutter_launcher_icons: ^0.13.1
   path: ^1.9.0
   recipe_extractor: ^2.0.0
+  url_launcher: ^6.2.5
+  share: ^2.0.4
 
 
 flutter_icons:

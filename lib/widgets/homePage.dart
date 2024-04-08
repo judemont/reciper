@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reciper/widgets/extractRecipeButton.dart';
+import 'package:reciper/widgets/settings.dart';
+import 'package:share/share.dart';
 import 'newRecipeButton.dart';
 import '../database.dart';
 import '../models/recipe.dart';
@@ -30,14 +32,14 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: const Text("Reciper"),
           centerTitle: true,
-          leading: IconButton(
-              onPressed: () {
-                setState(() {
-                  displaySearchField = !displaySearchField;
-                });
-              },
-              icon: const Icon(Icons.search)),
           actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    displaySearchField = !displaySearchField;
+                  });
+                },
+                icon: const Icon(Icons.search)),
             if (selectedRecipes.isNotEmpty)
               IconButton(
                   onPressed: () {
@@ -56,6 +58,11 @@ class _HomePageState extends State<HomePage> {
             NewRecipeButton(reloadRecipes: loadRecipes),
           ],
         ),
+        drawer: Drawer(
+            child: Settings(
+          backup: backup,
+          restore: restore,
+        )),
         body: Column(
           children: [
             Visibility(
@@ -105,5 +112,17 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       selectedRecipes = [];
     });
+  }
+
+  Future<void> backup() async {
+    DatabaseService db = DatabaseService();
+    db.generateBackup().then((String result) {
+      Share.share(result);
+    });
+  }
+
+  Future<void> restore(String backup) async {
+    DatabaseService db = DatabaseService();
+    db.restoreBackup(backup);
   }
 }

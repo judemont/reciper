@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reciper/database.dart';
 import 'package:reciper/models/recipe.dart';
+import 'package:reciper/widgets/homePage.dart';
 
 class RecipeEditorPage extends StatefulWidget {
   final String initialTitle;
@@ -51,7 +52,10 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                           steps: steps,
                           ingredients: ingredients));
                     }
-                    Navigator.pop(context);
+
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
                   }
                 },
                 icon: const Icon(Icons.check))
