@@ -54,8 +54,8 @@ jobs:
       # - name: Run tests
       #   run: flutter test          
 
-      - name: build apk
-        run: flutter build appbundle
+      - name: build bundle
+        run: flutter build appbundle --release
     
       - uses: ilharp/sign-android-release@v1
         name: Sign app Bundle
