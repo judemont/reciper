@@ -372,10 +372,10 @@ packages:
     dependency: "direct main"
     description:
       name: recipe_extractor
-      sha256: "5fe7498b8cc098c6f72cd8cdd94a84047bfc01fb3d3f33b50760ab582b455b85"
+      sha256: a6951c087b846cf1030dbbba18cbc8b2c960aa1f119fa66fed932754b94f24ff
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   share:
     dependency: "direct main"
     description:
