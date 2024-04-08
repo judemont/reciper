@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reciper/widgets/extractRecipeButton.dart';
 import 'package:reciper/widgets/settings.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'newRecipeButton.dart';
 import '../database.dart';
 import '../models/recipe.dart';
@@ -120,5 +120,6 @@ class _HomePageState extends State<HomePage> {
   Future<void> restore(String backup) async {
     DatabaseService db = DatabaseService();
     db.restoreBackup(backup);
+    loadRecipes();
   }
 }

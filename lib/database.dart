@@ -158,6 +158,9 @@ class DatabaseService {
     List json = convert
         .jsonDecode(isEncrypted ? encrypter.decrypt64(backup, iv: iv) : backup);
 
+    for (var table in tables) {
+      batch.execute("DELETE FROM $table");
+    }
     for (var i = 0; i < json[0].length; i++) {
       for (var k = 0; k < json[1][i].length; k++) {
         batch.insert(json[0][i], json[1][i][k]);
