@@ -62,7 +62,8 @@ class _HomePageState extends State<HomePage> {
           backup: backup,
           restore: restore,
         )),
-        body: Column(
+        body: SingleChildScrollView(
+            child: Column(
           children: [
             Visibility(
                 visible: displaySearchField,
@@ -71,16 +72,14 @@ class _HomePageState extends State<HomePage> {
                     loadRecipes(searchQuery: value);
                   },
                 )),
-            SingleChildScrollView(
-              child: RecipeListView(
-                reloadRecipes: loadRecipes,
-                recipes: recipes,
-                onRecipesSelectionUpdate: onRecipesSelectionUpdate,
-                selectedRecipesID: selectedRecipes,
-              ),
+            RecipeListView(
+              reloadRecipes: loadRecipes,
+              recipes: recipes,
+              onRecipesSelectionUpdate: onRecipesSelectionUpdate,
+              selectedRecipesID: selectedRecipes,
             ),
           ],
-        ));
+        )));
   }
 
   Future<void> loadRecipes({searchQuery = ""}) async {
