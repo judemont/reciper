@@ -66,7 +66,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                     ),
                     Text(widget.recipe.servings.isNotEmpty
                         ? "Servings:  ${widget.recipe.servings}"
-                        : "No servings"),
+                        : ""),
                     const SizedBox(
                       height: 15,
                     ),
