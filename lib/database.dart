@@ -19,7 +19,6 @@ class DatabaseService {
   static Future<Database> initializeDb() async {
     final databasePath = (await getApplicationDocumentsDirectory()).path;
     final path = join(databasePath, databaseName);
-    print(path);
     return db ??
         await openDatabase(
           path,
@@ -28,18 +27,15 @@ class DatabaseService {
             await createTables(db);
           },
           onUpgrade: (db, oldVersion, newVersion) async {
-            print("UPDATE DB");
             await updateTables(db, oldVersion, newVersion);
           },
           onOpen: (db) async {
-            print("OPEN DB");
             await openDB(db);
           },
         );
   }
 
   static openDB(Database db) {
-    print("** show tables **");
     db.rawQuery('SELECT * FROM sqlite_master ORDER BY name;').then((value) {
       print(value);
     });
@@ -68,6 +64,8 @@ class DatabaseService {
   }
 
   static Future<int> createRecipe(Recipe recipe) async {
+    print("CREATE");
+
     final db = await DatabaseService.initializeDb();
 
     final id = await db.insert(
@@ -96,10 +94,6 @@ class DatabaseService {
     final List<Map<String, Object?>> queryResult =
         await db.query('Recipes', where: "id = $id");
 
-    print("BBBBBBBBB");
-    print(queryResult[0]);
-    print("AAAAAAAA");
-
     return Recipe(
       id: queryResult[0]["id"] as int,
       steps: queryResult[0]["steps"] as String,
@@ -114,6 +108,8 @@ class DatabaseService {
   }
 
   static Future<void> updateRecipe(Recipe recipe) async {
+    print("UPDATE");
+
     final db = await DatabaseService.initializeDb();
     db.update("Recipes", recipe.toMap(),
         where: 'id = ?', whereArgs: [recipe.id]);

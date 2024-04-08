@@ -22,7 +22,6 @@ class _RecipeListViewState extends State<RecipeListView> {
   @override
   Widget build(BuildContext context) {
     List<int> selectedRecipesID = widget.selectedRecipesID;
-    print(widget.recipes);
     return Wrap(children: [
       ListView.builder(
         shrinkWrap: true,
@@ -40,12 +39,8 @@ class _RecipeListViewState extends State<RecipeListView> {
                 selectedRecipesID.add(widget.recipes[index].id!);
               }
               widget.onRecipesSelectionUpdate(selectedRecipesID);
-
-              print(selectedRecipesID);
             },
             onTap: () {
-              print(selectedRecipesID);
-
               if (selectedRecipesID.contains(widget.recipes[index].id!)) {
                 selectedRecipesID.remove(widget.recipes[index].id!);
               } else if (selectedRecipesID.isNotEmpty) {

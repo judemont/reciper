@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print(selectedRecipes);
     return Scaffold(
         appBar: AppBar(
           title: const Text("Reciper"),
@@ -88,8 +87,6 @@ class _HomePageState extends State<HomePage> {
     DatabaseService.getRecipes(searchQuery: searchQuery)
         .then((List<Recipe> result) {
       setState(() {
-        print("recipes LOAD:");
-        print(recipes);
         recipes = result;
       });
     });

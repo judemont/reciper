@@ -9,7 +9,9 @@ class RecipeEditorPage extends StatefulWidget {
   // final String initialSteps;
   // final int? recipeID;
   final Recipe? initialRecipe;
-  const RecipeEditorPage({super.key, this.initialRecipe});
+  final bool isUpdate;
+  const RecipeEditorPage(
+      {super.key, this.initialRecipe, this.isUpdate = false});
 
   @override
   State<RecipeEditorPage> createState() => _RecipeEditorPageState();
@@ -35,16 +37,15 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
-                    print(servings);
-                    if (widget.initialRecipe == null) {
-                      print("NEW RECIPE");
+                    print("SERVING:$servings");
+                    print(widget.initialRecipe);
+                    if (!widget.isUpdate) {
                       DatabaseService.createRecipe(Recipe(
                           title: title,
                           servings: servings,
                           steps: steps,
                           ingredients: ingredients));
                     } else {
-                      print("RECIPE UPDATE");
                       DatabaseService.updateRecipe(Recipe(
                           id: widget.initialRecipe!.id,
                           servings: servings,

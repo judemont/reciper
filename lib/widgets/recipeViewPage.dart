@@ -42,6 +42,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                         MaterialPageRoute(
                             builder: (context) => RecipeEditorPage(
                                   initialRecipe: widget.recipe,
+                                  isUpdate: true,
                                 )),
                       )
                       .then((value) => widget.reloadRecipes());
