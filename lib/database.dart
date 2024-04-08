@@ -71,10 +71,11 @@ class DatabaseService {
     return id;
   }
 
-  static Future<List<Recipe>> getRecipes() async {
+  static Future<List<Recipe>> getRecipes({String searchQuery = ""}) async {
     final db = await DatabaseService.initializeDb();
 
-    final List<Map<String, Object?>> queryResult = await db.query('Recipes');
+    final List<Map<String, Object?>> queryResult =
+        await db.query('Recipes', where: "title LIKE '%$searchQuery%'");
     return queryResult.map((e) => Recipe.fromMap(e)).toList();
   }
 

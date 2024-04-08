@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Recipe> recipes = [];
   List<int> selectedRecipes = [];
+  bool displaySearchField = false;
 
   @override
   void initState() {
@@ -26,41 +27,59 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     print(selectedRecipes);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Reciper"),
-        centerTitle: true,
-        actions: [
-          if (selectedRecipes.isNotEmpty)
-            IconButton(
-                onPressed: () {
-                  removeSelectedRecipes(selectedRecipes).then((value) {
-                    loadRecipes();
-                  });
-                },
-                icon: const Icon(Icons.delete)),
-        ],
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          ExtractRecipeButton(reloadRecipes: loadRecipes),
-          const SizedBox(height: 10),
-          NewRecipeButton(reloadRecipes: loadRecipes),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: RecipeListView(
-          reloadRecipes: loadRecipes,
-          recipes: recipes,
-          onRecipesSelectionUpdate: onRecipesSelectionUpdate,
-          selectedRecipesID: selectedRecipes,
+        appBar: AppBar(
+          title: const Text("Reciper"),
+          centerTitle: true,
+          leading: IconButton(
+              onPressed: () {
+                setState(() {
+                  displaySearchField = !displaySearchField;
+                });
+              },
+              icon: const Icon(Icons.search)),
+          actions: [
+            if (selectedRecipes.isNotEmpty)
+              IconButton(
+                  onPressed: () {
+                    removeSelectedRecipes(selectedRecipes).then((value) {
+                      loadRecipes();
+                    });
+                  },
+                  icon: const Icon(Icons.delete)),
+          ],
         ),
-      ),
-    );
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ExtractRecipeButton(reloadRecipes: loadRecipes),
+            const SizedBox(height: 10),
+            NewRecipeButton(reloadRecipes: loadRecipes),
+          ],
+        ),
+        body: Column(
+          children: [
+            Visibility(
+                visible: displaySearchField,
+                child: TextField(
+                  onChanged: (value) {
+                    loadRecipes(searchQuery: value);
+                  },
+                )),
+            SingleChildScrollView(
+              child: RecipeListView(
+                reloadRecipes: loadRecipes,
+                recipes: recipes,
+                onRecipesSelectionUpdate: onRecipesSelectionUpdate,
+                selectedRecipesID: selectedRecipes,
+              ),
+            ),
+          ],
+        ));
   }
 
-  Future<void> loadRecipes() async {
-    DatabaseService.getRecipes().then((List<Recipe> result) {
+  Future<void> loadRecipes({searchQuery = ""}) async {
+    DatabaseService.getRecipes(searchQuery: searchQuery)
+        .then((List<Recipe> result) {
       setState(() {
         print("recipes LOAD:");
         print(recipes);
