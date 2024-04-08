@@ -11,7 +11,7 @@ class DatabaseService {
   static const String databaseName = "reciperDB.sqlite";
   static Database? db;
 
-  static const DATABASE_VERSION = 1;
+  static const DATABASE_VERSION = 2;
   List<String> tables = ["Recipes"];
 
   static const SECRET_KEY = "2023_PRIVATE_KEY_ENCRYPT_2023";
@@ -28,9 +28,11 @@ class DatabaseService {
             await createTables(db);
           },
           onUpgrade: (db, oldVersion, newVersion) async {
+            print("UPDATE DB");
             await updateTables(db, oldVersion, newVersion);
           },
           onOpen: (db) async {
+            print("OPEN DB");
             await openDB(db);
           },
         );
@@ -45,6 +47,12 @@ class DatabaseService {
 
   static updateTables(Database db, int oldVersion, int newVersion) {
     print(" DB Version : $newVersion");
+    print(oldVersion);
+    if (oldVersion < newVersion) {
+      if (oldVersion < 3) {
+        db.execute("""ALTER TABLE Recipes ADD COLUMN servings TEXT """);
+      }
+    }
   }
 
   static Future<void> createTables(Database database) async {
@@ -53,6 +61,7 @@ class DatabaseService {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           steps TEXT,
           title TEXT NOT NULL,
+          servings TEXT,
           ingredients TEXT
       )
     """);
@@ -74,8 +83,9 @@ class DatabaseService {
   static Future<List<Recipe>> getRecipes({String searchQuery = ""}) async {
     final db = await DatabaseService.initializeDb();
 
-    final List<Map<String, Object?>> queryResult =
+    final List<Map<String, dynamic>> queryResult =
         await db.query('Recipes', where: "title LIKE '%$searchQuery%'");
+    print(queryResult);
     return queryResult.map((e) => Recipe.fromMap(e)).toList();
   }
 

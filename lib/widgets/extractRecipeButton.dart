@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_extractor/recipe_extractor.dart';
+import 'package:reciper/models/recipe.dart';
 import 'recipeEditorPage.dart';
 
 class ExtractRecipeButton extends StatefulWidget {
@@ -53,11 +54,13 @@ class _ExtractRecipeButtonState extends State<ExtractRecipeButton> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => RecipeEditorPage(
-                        initialTitle: recipeData.name ?? "",
-                        initialIngredients:
-                            (recipeData.ingredients ?? []).join("\n"),
-                        initialSteps:
-                            (recipeData.instructions ?? []).join("\n"),
+                        initialRecipe: Recipe(
+                          title: recipeData.name ?? "",
+                          servings: recipeData.servings ?? "",
+                          ingredients:
+                              (recipeData.ingredients ?? []).join("\n"),
+                          steps: (recipeData.instructions ?? []).join("\n"),
+                        ),
                       ),
                     ),
                   ).then((value) => widget.reloadRecipes());

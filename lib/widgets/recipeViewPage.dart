@@ -41,10 +41,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                       .push(
                         MaterialPageRoute(
                             builder: (context) => RecipeEditorPage(
-                                  initialTitle: widget.recipe.title,
-                                  initialIngredients: widget.recipe.ingredients,
-                                  initialSteps: widget.recipe.steps,
-                                  recipeID: widget.recipe.id,
+                                  initialRecipe: widget.recipe,
                                 )),
                       )
                       .then((value) => widget.reloadRecipes());
@@ -63,6 +60,12 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                       style: const TextStyle(
                           fontSize: 30, fontWeight: FontWeight.bold),
                     ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Text(widget.recipe.servings.isNotEmpty
+                        ? "Servings:  ${widget.recipe.servings}"
+                        : ""),
                     const SizedBox(
                       height: 15,
                     ),

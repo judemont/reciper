@@ -4,16 +4,12 @@ import 'package:reciper/models/recipe.dart';
 import 'package:reciper/widgets/homePage.dart';
 
 class RecipeEditorPage extends StatefulWidget {
-  final String initialTitle;
-  final String initialIngredients;
-  final String initialSteps;
-  final int? recipeID;
-  const RecipeEditorPage(
-      {super.key,
-      this.initialTitle = "",
-      this.initialIngredients = "",
-      this.initialSteps = "",
-      this.recipeID});
+  // final String initialTitle;
+  // final String initialIngredients;
+  // final String initialSteps;
+  // final int? recipeID;
+  final Recipe? initialRecipe;
+  const RecipeEditorPage({super.key, this.initialRecipe});
 
   @override
   State<RecipeEditorPage> createState() => _RecipeEditorPageState();
@@ -25,6 +21,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
   String title = "";
   String ingredients = "";
   String steps = "";
+  String servings = "";
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +35,18 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
-                    if (widget.recipeID == null) {
+                    if (widget.initialRecipe == null) {
                       print("NEW RECIPE");
                       DatabaseService.createRecipe(Recipe(
                           title: title,
+                          servings: servings,
                           steps: steps,
                           ingredients: ingredients));
                     } else {
                       print("RECIPE UPDATE");
                       DatabaseService.updateRecipe(Recipe(
-                          id: widget.recipeID,
+                          id: widget.initialRecipe!.id,
+                          servings: servings,
                           title: title,
                           steps: steps,
                           ingredients: ingredients));
@@ -69,7 +68,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
             child: Column(
               children: [
                 TextFormField(
-                  initialValue: widget.initialTitle,
+                  initialValue: widget.initialRecipe?.title,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter something.';
@@ -86,7 +85,18 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                 ),
                 SizedBox(height: fieldsMargin),
                 TextFormField(
-                  initialValue: widget.initialIngredients,
+                  initialValue: widget.initialRecipe?.servings,
+                  onSaved: (value) {
+                    servings = value!;
+                  },
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Servings',
+                  ),
+                ),
+                SizedBox(height: fieldsMargin),
+                TextFormField(
+                  initialValue: widget.initialRecipe?.ingredients,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter something.';
@@ -105,7 +115,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                 ),
                 SizedBox(height: fieldsMargin),
                 TextFormField(
-                  initialValue: widget.initialSteps,
+                  initialValue: widget.initialRecipe?.steps,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please enter something.';
