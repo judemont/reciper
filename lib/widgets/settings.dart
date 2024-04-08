@@ -128,7 +128,7 @@ class _SettingsState extends State<Settings> {
                         style: TextStyle(color: Colors.blue),
                       ),
                       onTap: () => launchUrl(
-                          Uri.parse('https://github.com/judemont/tasker')),
+                          Uri.parse('https://github.com/judemont/reciper')),
                     )
                   ],
                 ),
