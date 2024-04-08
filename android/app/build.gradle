@@ -51,6 +51,14 @@ android {
         versionName flutterVersionName
     }
 
+    signingConfigs {
+        release {
+            storeFile file("/home/judemont/projects/flutter/reciper/reciper/release-key.jks")
+            storePassword "iu2t7LwN"
+            keyAlias "my-key"
+            keyPassword "iu2t7LwN"
+        }
+    }
     buildTypes {
         release {
             signingConfig signingConfigs.release
