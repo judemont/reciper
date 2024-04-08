@@ -74,30 +74,3 @@ jobs:
         with:
           name: release-bundle
           path: build/app/outputs/bundle/release/app-release.aab
-
-      - name: create-release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITUB_TOKEN }}
-        with:
-          tag_name:  v${{ steps.version.outputs.version }}
-          release_name: Release ${{ steps.version.outputs.version }}
-          draft: true
-          prerelease: false
-  
-      - name: Upload release asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{steps.sign_app.outputs.signedFile}}
-          asset_name: reciper-release-${{ steps.version.outputs.version }}.aab
-          asset_content_type: application/aab
-      - name: Publish release
-        uses: eregon/publish-release@v1.0.6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITUB_TOKEN }}
-        with:
-          release_id: ${{ steps.create_release.outputs.id }}
