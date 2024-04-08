@@ -35,6 +35,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
+                    print(servings);
                     if (widget.initialRecipe == null) {
                       print("NEW RECIPE");
                       DatabaseService.createRecipe(Recipe(

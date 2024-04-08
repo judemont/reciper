@@ -73,10 +73,11 @@ class DatabaseService {
     final id = await db.insert(
         'Recipes',
         Recipe(
-          steps: recipe.steps,
-          title: recipe.title,
-          ingredients: recipe.ingredients,
-        ).toMap());
+                steps: recipe.steps,
+                title: recipe.title,
+                ingredients: recipe.ingredients,
+                servings: recipe.servings)
+            .toMap());
     return id;
   }
 
@@ -85,7 +86,7 @@ class DatabaseService {
 
     final List<Map<String, dynamic>> queryResult =
         await db.query('Recipes', where: "title LIKE '%$searchQuery%'");
-    print(queryResult);
+
     return queryResult.map((e) => Recipe.fromMap(e)).toList();
   }
 
