@@ -54,7 +54,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                     }
 
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => HomePage()),
+                      MaterialPageRoute(builder: (context) => const HomePage()),
                     );
                   }
                 },

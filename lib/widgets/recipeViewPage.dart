@@ -87,7 +87,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                               });
                         }),
                     const Text(
-                      "Steps :",
+                      "Preparation :",
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -99,7 +99,13 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                           return CheckboxListTile(
                               controlAffinity: ListTileControlAffinity.leading,
                               value: checkboxValuesSteps[index] ?? false,
-                              title: Text(stepsList[index]),
+                              title: Text(
+                                stepsList[index],
+                                style: TextStyle(
+                                    color: (checkboxValuesSteps[index] ?? false)
+                                        ? Colors.grey
+                                        : Colors.white),
+                              ),
                               onChanged: (value) {
                                 setState(() {
                                   checkboxValuesSteps[index] = value!;

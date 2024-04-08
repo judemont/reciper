@@ -53,7 +53,7 @@ class _SettingsState extends State<Settings> {
                       onTap: () => showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
-                          title: const Text("Restore backup"),
+                          title: const Text("Import recipes"),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -98,7 +98,7 @@ class _SettingsState extends State<Settings> {
                 child: Column(
                   children: [
                     ListTile(
-                      title: const Text("Backup"),
+                      title: const Text("Export recipes"),
                       onTap: () => widget.backup(),
                     ),
                   ],
