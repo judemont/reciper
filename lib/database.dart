@@ -115,7 +115,7 @@ class DatabaseService {
         where: 'id = ?', whereArgs: [recipe.id]);
   }
 
-  Future<String> generateBackup({bool isEncrypted = false}) async {
+  Future<String> export({bool isEncrypted = false}) async {
     print('GENERATE BACKUP');
 
     var dbs = await DatabaseService.initializeDb();
@@ -146,7 +146,8 @@ class DatabaseService {
     }
   }
 
-  Future<void> restoreBackup(String backup, {bool isEncrypted = false}) async {
+  Future<void> import(String backup, {bool isEncrypted = false}) async {
+    print("IIIIIIIMMMMPOOORT");
     var dbs = await DatabaseService.initializeDb();
 
     Batch batch = dbs.batch();
@@ -158,12 +159,16 @@ class DatabaseService {
     List json = convert
         .jsonDecode(isEncrypted ? encrypter.decrypt64(backup, iv: iv) : backup);
 
-    for (var table in tables) {
-      batch.execute("DELETE FROM $table");
-    }
+    List<Recipe> actualRecipes = await DatabaseService.getRecipes();
+
     for (var i = 0; i < json[0].length; i++) {
       for (var k = 0; k < json[1][i].length; k++) {
-        batch.insert(json[0][i], json[1][i][k]);
+        if (actualRecipes
+            .where((recipe) => recipe.title == json[1][i][k]["title"])
+            .isEmpty) {
+          json[1][i][k]["id"] = null;
+          batch.insert(json[0][i], json[1][i][k]);
+        }
       }
     }
 

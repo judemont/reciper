@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
     File file = File(filePath);
 
     DatabaseService db = DatabaseService();
-    db.generateBackup().then((String result) {
+    db.export().then((String result) {
       file.writeAsString(result);
       Share.shareXFiles([XFile(filePath)]);
     });
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
     if (file != null) {
       String backupContent = await file.readAsString();
       DatabaseService db = DatabaseService();
-      db.restoreBackup(backupContent);
+      db.import(backupContent);
       loadRecipes();
     }
   }

@@ -48,7 +48,9 @@ class _SettingsState extends State<Settings> {
                   children: [
                     ListTile(
                         title: const Text("Import recipes"),
-                        onTap: () => widget.restore()),
+                        onTap: () {
+                          widget.restore().then(() => Navigator.pop(context));
+                        }),
                   ],
                 ),
               ),
