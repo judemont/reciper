@@ -11,7 +11,7 @@ class DatabaseService {
   static const String databaseName = "reciperDB.sqlite";
   static Database? db;
 
-  static const databaseVersion = 2;
+  static const databaseVersion = 3;
   List<String> tables = ["Recipes"];
 
   static const secretKey = "2023_PRIVATE_KEY_ENCRYPT_2023";
@@ -45,8 +45,11 @@ class DatabaseService {
     print(" DB Version : $newVersion");
     print(oldVersion);
     if (oldVersion < newVersion) {
-      if (oldVersion < 3) {
+      if (oldVersion < 2) {
         db.execute("""ALTER TABLE Recipes ADD COLUMN servings TEXT """);
+      }
+      if (oldVersion < 3) {
+        db.execute("""ALTER TABLE Recipes ADD COLUMN source TEXT """);
       }
     }
   }
@@ -58,7 +61,8 @@ class DatabaseService {
           steps TEXT,
           title TEXT NOT NULL,
           servings TEXT,
-          ingredients TEXT
+          ingredients TEXT,
+          source TEXT,
       )
     """);
   }
@@ -74,7 +78,8 @@ class DatabaseService {
                 steps: recipe.steps,
                 title: recipe.title,
                 ingredients: recipe.ingredients,
-                servings: recipe.servings)
+                servings: recipe.servings,
+                source: recipe.source)
             .toMap());
     return id;
   }
@@ -96,9 +101,10 @@ class DatabaseService {
 
     return Recipe(
       id: queryResult[0]["id"] as int,
-      steps: queryResult[0]["steps"] as String,
-      title: queryResult[0]["title"] as String,
-      ingredients: queryResult[0]["ingredients"] as String,
+      steps: queryResult[0]["steps"] as String?,
+      title: queryResult[0]["title"] as String?,
+      ingredients: queryResult[0]["ingredients"] as String?,
+      source: queryResult[0]["source"] as String?,
     );
   }
 

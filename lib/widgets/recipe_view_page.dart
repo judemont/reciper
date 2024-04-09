@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reciper/widgets/recipe_editor_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../models/recipe.dart';
 
 class RecipeViewPage extends StatefulWidget {
@@ -17,16 +18,17 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> ingredientsList = widget.recipe.ingredients.split("\n");
+    List<String> ingredientsList =
+        (widget.recipe.ingredients ?? "").split("\n");
     ingredientsList.removeWhere((element) => element == "");
 
     if (ingredientsList.isEmpty) {
-      ingredientsList.add(widget.recipe.ingredients);
+      ingredientsList.add(widget.recipe.ingredients ?? "");
     }
-    List<String> stepsList = widget.recipe.steps.split("\n");
+    List<String> stepsList = (widget.recipe.steps ?? "").split("\n");
     stepsList.removeWhere((element) => element == "");
     if (stepsList.isEmpty) {
-      stepsList.add(widget.recipe.ingredients);
+      stepsList.add(widget.recipe.ingredients ?? "");
     }
 
     return Scaffold(
@@ -57,14 +59,14 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.recipe.title,
+                      widget.recipe.title ?? "",
                       style: const TextStyle(
                           fontSize: 30, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
                       height: 15,
                     ),
-                    Text(widget.recipe.servings.isNotEmpty
+                    Text((widget.recipe.servings ?? "").isNotEmpty
                         ? "Servings:  ${widget.recipe.servings}"
                         : ""),
                     const SizedBox(
@@ -120,6 +122,17 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                                 });
                               });
                         }),
+                    ListTile(
+                        title: Text(
+                          "Source: ${widget.recipe.source}",
+                          style: const TextStyle(color: Colors.blue),
+                        ),
+                        onTap: () {
+                          if (Uri.tryParse(widget.recipe.source ?? "") !=
+                              null) {
+                            launchUrl(Uri.parse(widget.recipe.source!));
+                          }
+                        })
                   ],
                 ))));
   }

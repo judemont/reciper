@@ -24,6 +24,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
   String ingredients = "";
   String steps = "";
   String servings = "";
+  String source = "";
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +45,16 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                           title: title,
                           servings: servings,
                           steps: steps,
-                          ingredients: ingredients));
+                          ingredients: ingredients,
+                          source: source));
                     } else {
                       DatabaseService.updateRecipe(Recipe(
                           id: widget.initialRecipe!.id,
                           servings: servings,
                           title: title,
                           steps: steps,
-                          ingredients: ingredients));
+                          ingredients: ingredients,
+                          source: source));
                     }
 
                     Navigator.of(context).push(
@@ -99,12 +102,6 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                 SizedBox(height: fieldsMargin),
                 TextFormField(
                   initialValue: widget.initialRecipe?.ingredients,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter something.';
-                    }
-                    return null;
-                  },
                   onSaved: (value) {
                     ingredients = value!;
                   },
@@ -118,12 +115,6 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                 SizedBox(height: fieldsMargin),
                 TextFormField(
                   initialValue: widget.initialRecipe?.steps,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter something.';
-                    }
-                    return null;
-                  },
                   onSaved: (value) {
                     steps = value!;
                   },
@@ -134,6 +125,23 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                     hintText: 'Steps',
                   ),
                 ),
+                SizedBox(height: fieldsMargin),
+                TextFormField(
+                  validator: (value) {
+                    if ((value ?? "").isNotEmpty &&
+                        Uri.tryParse(value ?? "") == null) {
+                      return "Please enter a valid URL";
+                    }
+                  },
+                  initialValue: widget.initialRecipe?.source,
+                  onSaved: (value) {
+                    source = value ?? "";
+                  },
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Recipe source URL',
+                  ),
+                )
               ],
             ),
           ),

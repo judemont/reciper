@@ -64,6 +64,7 @@ class _ExtractRecipeButtonState extends State<ExtractRecipeButton> {
                             ingredients:
                                 (recipeData.ingredients ?? []).join("\n"),
                             steps: (recipeData.instructions ?? []).join("\n"),
+                            source: recipeData.source,
                           ),
                         ),
                       ),
