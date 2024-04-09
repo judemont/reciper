@@ -1,3 +1,4 @@
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:reciper/widgets/extractRecipeButton.dart';
 import 'package:reciper/widgets/settings.dart';
@@ -6,6 +7,8 @@ import 'newRecipeButton.dart';
 import '../database.dart';
 import '../models/recipe.dart';
 import 'recipesListView.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -60,7 +63,7 @@ class _HomePageState extends State<HomePage> {
         drawer: Drawer(
             child: Settings(
           backup: backup,
-          restore: restore,
+          restore: import,
         )),
         body: SingleChildScrollView(
             child: Column(
@@ -111,15 +114,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> backup() async {
+    Directory appDocumentsDirectory =
+        await getApplicationDocumentsDirectory(); // 1
+    String appDocumentsPath = appDocumentsDirectory.path;
+    String filePath = '$appDocumentsPath/Reciper_Export.json';
+
+    File file = File(filePath);
+
     DatabaseService db = DatabaseService();
     db.generateBackup().then((String result) {
-      Share.share(result);
+      file.writeAsString(result);
+      Share.shareXFiles([XFile(filePath)]);
     });
   }
 
-  Future<void> restore(String backup) async {
-    DatabaseService db = DatabaseService();
-    db.restoreBackup(backup);
-    loadRecipes();
+  Future<void> import() async {
+    const XTypeGroup typeGroup = XTypeGroup(
+      label: 'Reciper export',
+      extensions: <String>['json'],
+    );
+    final XFile? file =
+        await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
+
+    if (file != null) {
+      String backupContent = await file.readAsString();
+      DatabaseService db = DatabaseService();
+      db.restoreBackup(backupContent);
+      loadRecipes();
+    }
   }
 }

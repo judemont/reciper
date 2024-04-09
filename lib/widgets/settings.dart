@@ -49,37 +49,8 @@ class _SettingsState extends State<Settings> {
                 child: Column(
                   children: [
                     ListTile(
-                      title: const Text("Restore backup"),
-                      onTap: () => showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          title: const Text("Import recipes"),
-                          content: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              TextField(
-                                controller: backupCodeController,
-                                decoration: const InputDecoration(
-                                    hintText: "Past Backup Code Here"),
-                              ),
-                            ],
-                          ),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'Cancel'),
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                widget.restore(backupCodeController.text);
-                                Navigator.pop(context, 'ok');
-                              },
-                              child: const Text('OK'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                        title: const Text("Import recipes"),
+                        onTap: () => widget.restore()),
                   ],
                 ),
               ),
