@@ -1,12 +1,12 @@
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
-import 'package:reciper/widgets/extractRecipeButton.dart';
+import 'package:reciper/widgets/extract_recipe_button.dart';
 import 'package:reciper/widgets/settings.dart';
 import 'package:share_plus/share_plus.dart';
-import 'newRecipeButton.dart';
+import 'new_recipe_button.dart';
 import '../database.dart';
 import '../models/recipe.dart';
-import 'recipesListView.dart';
+import 'recipes_list_view.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 

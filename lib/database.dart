@@ -11,10 +11,10 @@ class DatabaseService {
   static const String databaseName = "reciperDB.sqlite";
   static Database? db;
 
-  static const DATABASE_VERSION = 2;
+  static const databaseVersion = 2;
   List<String> tables = ["Recipes"];
 
-  static const SECRET_KEY = "2023_PRIVATE_KEY_ENCRYPT_2023";
+  static const secretKey = "2023_PRIVATE_KEY_ENCRYPT_2023";
 
   static Future<Database> initializeDb() async {
     final databasePath = (await getApplicationDocumentsDirectory()).path;
@@ -22,7 +22,7 @@ class DatabaseService {
     return db ??
         await openDatabase(
           path,
-          version: DATABASE_VERSION,
+          version: databaseVersion,
           onCreate: (Database db, int version) async {
             await createTables(db);
           },
@@ -135,7 +135,7 @@ class DatabaseService {
     String json = convert.jsonEncode(backups);
 
     if (isEncrypted) {
-      var key = encrypt.Key.fromUtf8(SECRET_KEY);
+      var key = encrypt.Key.fromUtf8(secretKey);
       var iv = encrypt.IV.fromLength(16);
       var encrypter = encrypt.Encrypter(encrypt.AES(key));
       var encrypted = encrypter.encrypt(json, iv: iv);
@@ -152,7 +152,7 @@ class DatabaseService {
 
     Batch batch = dbs.batch();
 
-    var key = encrypt.Key.fromUtf8(SECRET_KEY);
+    var key = encrypt.Key.fromUtf8(secretKey);
     var iv = encrypt.IV.fromLength(16);
     var encrypter = encrypt.Encrypter(encrypt.AES(key));
 

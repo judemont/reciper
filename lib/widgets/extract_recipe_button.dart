@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_extractor/recipe_extractor.dart';
 import 'package:reciper/models/recipe.dart';
-import 'recipeEditorPage.dart';
+import 'recipe_editor_page.dart';
 
 class ExtractRecipeButton extends StatefulWidget {
   final Function reloadRecipes;
@@ -42,28 +42,33 @@ class _ExtractRecipeButtonState extends State<ExtractRecipeButton> {
               onPressed: () async {
                 String recipeUrl = recipeSiteUrlController.text;
                 RecipeData recipeData = await extractRecipe(recipeUrl);
-                Navigator.pop(context, 'ok');
+
                 if (recipeData.name == null) {
                   print("Failed to extract recipe");
                   SnackBar errorBar = const SnackBar(
                     content: Text("Failed to extract recipe"),
                   );
-                  ScaffoldMessenger.of(context).showSnackBar(errorBar);
+
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(errorBar);
+                  }
                 } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RecipeEditorPage(
-                        initialRecipe: Recipe(
-                          title: recipeData.name ?? "",
-                          servings: recipeData.servings ?? "",
-                          ingredients:
-                              (recipeData.ingredients ?? []).join("\n"),
-                          steps: (recipeData.instructions ?? []).join("\n"),
+                  if (context.mounted) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RecipeEditorPage(
+                          initialRecipe: Recipe(
+                            title: recipeData.name ?? "",
+                            servings: recipeData.servings ?? "",
+                            ingredients:
+                                (recipeData.ingredients ?? []).join("\n"),
+                            steps: (recipeData.instructions ?? []).join("\n"),
+                          ),
                         ),
                       ),
-                    ),
-                  ).then((value) => widget.reloadRecipes());
+                    ).then((value) => widget.reloadRecipes());
+                  }
                 }
               },
               child: const Text('OK'),

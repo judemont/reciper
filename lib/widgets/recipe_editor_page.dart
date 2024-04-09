@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reciper/database.dart';
 import 'package:reciper/models/recipe.dart';
-import 'package:reciper/widgets/homePage.dart';
+import 'package:reciper/widgets/home_page.dart';
 
 class RecipeEditorPage extends StatefulWidget {
   // final String initialTitle;

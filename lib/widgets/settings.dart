@@ -5,7 +5,7 @@ class Settings extends StatefulWidget {
   final Function backup;
   final Function restore;
 
-  const Settings({Key? key, required this.backup, required this.restore});
+  const Settings({super.key, required this.backup, required this.restore});
 
   @override
   State<Settings> createState() => _SettingsState();
