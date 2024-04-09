@@ -28,25 +28,24 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  encrypt: ^5.0.3
+  file_selector: ^1.0.3
   flutter:
     sdk: flutter
+  path_provider: ^2.1.2
+  recipe_extractor: ^2.2.1
+  share_plus: ^8.0.3
+  sqflite: ^2.3.3
+  sqflite_common: ^2.5.4
+  sqflite_common_ffi: ^2.3.3
+  sqlite3_flutter_libs: ^0.5.20
+  test: ^1.24.9
+  url_launcher: ^6.2.5
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.6
-  sqflite_common_ffi: ^2.3.3
-  sqlite3_flutter_libs: ^0.5.20
-  path_provider: ^2.1.2
-  sqflite: ^2.3.2
-  encrypt: ^5.0.3
-  flutter_launcher_icons: ^0.13.1
-  path: ^1.9.0
-  recipe_extractor: ^2.0.0
-  url_launcher: ^6.2.5
-  share_plus: ^8.0.3
-  file_selector: ^1.0.3
-  test: ^1.24.9
+
 
 
 flutter_icons:
