@@ -26,8 +26,6 @@ class _SettingsState extends State<Settings> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController backupCodeController = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
