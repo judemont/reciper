@@ -106,9 +106,13 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                               title: Text(
                                 stepsList[index],
                                 style: TextStyle(
-                                    color: (checkboxValuesSteps[index] ?? false)
-                                        ? Colors.grey
-                                        : Colors.white),
+                                  color: (checkboxValuesSteps[index] ?? false)
+                                      ? Colors.grey
+                                      : Theme.of(context).brightness ==
+                                              Brightness.light
+                                          ? Colors.black
+                                          : Colors.white,
+                                ),
                               ),
                               onChanged: (value) {
                                 setState(() {
