@@ -132,6 +132,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                         Uri.tryParse(value ?? "") == null) {
                       return "Please enter a valid URL";
                     }
+                    return null;
                   },
                   initialValue: widget.initialRecipe?.source,
                   onSaved: (value) {
