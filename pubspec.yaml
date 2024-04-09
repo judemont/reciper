@@ -46,6 +46,7 @@ dependencies:
   url_launcher: ^6.2.5
   share_plus: ^8.0.3
   file_selector: ^1.0.3
+  test: ^1.24.9
 
 
 flutter_icons:
