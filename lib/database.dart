@@ -62,7 +62,7 @@ class DatabaseService {
           title TEXT NOT NULL,
           servings TEXT,
           ingredients TEXT,
-          source TEXT,
+          source TEXT
       )
     """);
   }
