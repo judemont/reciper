@@ -83,6 +83,8 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                         itemCount: ingredientsList.length,
                         itemBuilder: (BuildContext context, int index) {
                           return CheckboxListTile(
+                              visualDensity: const VisualDensity(
+                                  vertical: VisualDensity.minimumDensity),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: checkboxValuesIngredients[index] ?? false,
                               title: Text(ingredientsList[index]),
@@ -122,17 +124,17 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                                 });
                               });
                         }),
-                    ListTile(
-                        title: Text(
-                          "Source: ${widget.recipe.source}",
-                          style: const TextStyle(color: Colors.blue),
-                        ),
-                        onTap: () {
-                          if (Uri.tryParse(widget.recipe.source ?? "") !=
-                              null) {
-                            launchUrl(Uri.parse(widget.recipe.source!));
-                          }
-                        })
+                    Visibility(
+                        visible:
+                            Uri.parse(widget.recipe.source ?? "").isAbsolute,
+                        child: ListTile(
+                            title: Text(
+                              "Source: ${widget.recipe.source}",
+                              style: const TextStyle(color: Colors.blue),
+                            ),
+                            onTap: () {
+                              launchUrl(Uri.parse(widget.recipe.source!));
+                            }))
                   ],
                 ))));
   }
