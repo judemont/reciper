@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:reciper/database.dart';
+import 'package:reciper/screens/pages_layout.dart';
+import 'package:reciper/utilities/database.dart';
 import 'package:reciper/models/recipe.dart';
-import 'package:reciper/widgets/home_page.dart';
+import 'package:reciper/screens/home.dart';
+import 'package:reciper/widgets/extract_recipe_button.dart';
 
 class RecipeEditorPage extends StatefulWidget {
   // final String initialTitle;
@@ -31,6 +33,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text("New Recipe"),
           centerTitle: true,
           actions: [
@@ -38,8 +41,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
-                    print("SERVING:$servings");
-                    print(widget.initialRecipe);
+
                     if (!widget.isUpdate) {
                       DatabaseService.createRecipe(Recipe(
                           title: title,
@@ -58,13 +60,16 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                     }
 
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => const HomePage()),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const PagesLayout(child: HomePage())),
                     );
                   }
                 },
                 icon: const Icon(Icons.check))
           ],
         ),
+        floatingActionButton: const ExtractRecipeButton(),
         body: SingleChildScrollView(
             child: Form(
           key: formKey,

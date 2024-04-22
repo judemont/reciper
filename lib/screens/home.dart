@@ -1,12 +1,11 @@
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:reciper/widgets/extract_recipe_button.dart';
-import 'package:reciper/widgets/settings.dart';
+import 'package:reciper/screens/settings.dart';
 import 'package:share_plus/share_plus.dart';
-import 'new_recipe_button.dart';
-import '../database.dart';
+import '../utilities/database.dart';
 import '../models/recipe.dart';
-import 'recipes_list_view.dart';
+import '../widgets/recipes_list.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
@@ -32,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text("Reciper"),
           centerTitle: true,
           actions: [
@@ -52,19 +52,11 @@ class _HomePageState extends State<HomePage> {
                   icon: const Icon(Icons.delete)),
           ],
         ),
-        floatingActionButton: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            ExtractRecipeButton(reloadRecipes: loadRecipes),
-            const SizedBox(height: 10),
-            NewRecipeButton(reloadRecipes: loadRecipes),
-          ],
-        ),
-        drawer: Drawer(
-            child: Settings(
-          backup: backup,
-          restore: import,
-        )),
+        // drawer: Drawer(
+        //     child: Settings(
+        //   backup: backup,
+        //   restore: import,
+        // )),
         body: SingleChildScrollView(
             child: Column(
           children: [
@@ -111,36 +103,5 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       selectedRecipes = [];
     });
-  }
-
-  Future<void> backup() async {
-    Directory appDocumentsDirectory =
-        await getApplicationDocumentsDirectory(); // 1
-    String appDocumentsPath = appDocumentsDirectory.path;
-    String filePath = '$appDocumentsPath/Reciper_Export.json';
-
-    File file = File(filePath);
-
-    DatabaseService db = DatabaseService();
-    db.export().then((String result) {
-      file.writeAsString(result);
-      Share.shareXFiles([XFile(filePath)]);
-    });
-  }
-
-  Future<void> import() async {
-    const XTypeGroup typeGroup = XTypeGroup(
-      label: 'Reciper export',
-      extensions: <String>['json'],
-    );
-    final XFile? file =
-        await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
-
-    if (file != null) {
-      String backupContent = await file.readAsString();
-      DatabaseService db = DatabaseService();
-      db.import(backupContent);
-      loadRecipes();
-    }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:reciper/widgets/recipe_editor_page.dart';
+import 'package:reciper/screens/pages_layout.dart';
+import 'package:reciper/screens/recipe_editor.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/recipe.dart';
 
@@ -40,13 +41,14 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
             IconButton(
                 onPressed: () {
                   Navigator.of(context)
-                      .push(
-                        MaterialPageRoute(
-                            builder: (context) => RecipeEditorPage(
-                                  initialRecipe: widget.recipe,
-                                  isUpdate: true,
-                                )),
-                      )
+                      .push(MaterialPageRoute(
+                        builder: (context) => PagesLayout(
+                            displayBottomNavBar: false,
+                            child: RecipeEditorPage(
+                              initialRecipe: widget.recipe,
+                              isUpdate: true,
+                            )),
+                      ))
                       .then((value) => widget.reloadRecipes());
                 },
                 icon: const Icon(Icons.edit))

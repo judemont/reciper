@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'widgets/home_page.dart';
+import 'package:reciper/screens/pages_layout.dart';
+import 'screens/home.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 Future<void> main() async {
@@ -16,15 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Reciper',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      darkTheme: ThemeData.dark(),
-      home: const Scaffold(
-        body: HomePage(),
-      ),
-    );
+        title: 'Reciper',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData.dark(),
+        home: const PagesLayout(child: HomePage()));
   }
 }

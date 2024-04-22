@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:reciper/utilities/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Settings extends StatefulWidget {
-  final Function backup;
-  final Function restore;
-
-  const Settings({super.key, required this.backup, required this.restore});
+  const Settings({super.key});
 
   @override
   State<Settings> createState() => _SettingsState();
@@ -28,7 +26,9 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text('Settings'),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -49,7 +49,8 @@ class _SettingsState extends State<Settings> {
                     ListTile(
                         title: const Text("Import recipes"),
                         onTap: () {
-                          widget.restore().then(() => Navigator.pop(context));
+                          Utils.import();
+                          Navigator.pop(context);
                         }),
                   ],
                 ),
@@ -70,7 +71,7 @@ class _SettingsState extends State<Settings> {
                   children: [
                     ListTile(
                       title: const Text("Export recipes"),
-                      onTap: () => widget.backup(),
+                      onTap: () => Utils.export(),
                     ),
                   ],
                 ),
