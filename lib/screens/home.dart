@@ -1,13 +1,7 @@
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
-import 'package:reciper/widgets/extract_recipe_button.dart';
-import 'package:reciper/screens/settings.dart';
-import 'package:share_plus/share_plus.dart';
 import '../utilities/database.dart';
 import '../models/recipe.dart';
 import '../widgets/recipes_list.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -39,6 +33,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   setState(() {
                     displaySearchField = !displaySearchField;
+                    loadRecipes();
                   });
                 },
                 icon: const Icon(Icons.search)),

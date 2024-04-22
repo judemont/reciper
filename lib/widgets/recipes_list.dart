@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:reciper/widgets/reciper_list_tile.dart';
-import '../screens/recipe_view.dart';
 import '../models/recipe.dart';
 
 class RecipeListView extends StatefulWidget {
