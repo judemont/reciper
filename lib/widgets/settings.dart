@@ -91,7 +91,7 @@ class _SettingsState extends State<Settings> {
                   children: [
                     const ListTile(
                       title: Text(
-                          "Reciper is an open source, simple (but powerful), privacy friendly Recipe management app developed with ❤️ by Judemont and Rdemont"),
+                          "Reciper has been developed with ❤️ by Judemont and Rdemont"),
                     ),
                     ListTile(
                       title: const Text(
