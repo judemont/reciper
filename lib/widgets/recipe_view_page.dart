@@ -125,8 +125,9 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                               });
                         }),
                     Visibility(
-                        visible:
-                            Uri.parse(widget.recipe.source ?? "").isAbsolute,
+                        visible: Uri.tryParse(widget.recipe.source ?? "")
+                                ?.isAbsolute ??
+                            false,
                         child: ListTile(
                             title: Text(
                               "Source: ${widget.recipe.source}",
