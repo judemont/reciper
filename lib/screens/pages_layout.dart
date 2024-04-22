@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:reciper/screens/about.dart';
 import 'package:reciper/screens/home.dart';
 import 'package:reciper/screens/recipe_editor.dart';
 import 'package:reciper/screens/settings.dart';
