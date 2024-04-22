@@ -18,7 +18,7 @@
 
 ### Internet recipes extraction
 
-Extracting recipes from a website works using the [recipe_extractor](https://pub.dev/packages/recipe_extractor) dart package created by me.
+Extracting recipes from a website works using the [recipe_extractor](https://github.com/judemont/recipe_extractor) dart package created by me.
 
 | Supported recipe sites : |
 | ------------------------ |
