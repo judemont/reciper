@@ -39,11 +39,25 @@ class _HomePageState extends State<HomePage> {
                 icon: const Icon(Icons.search)),
             if (selectedRecipes.isNotEmpty)
               IconButton(
-                  onPressed: () {
-                    removeSelectedRecipes(selectedRecipes).then((value) {
-                      loadRecipes();
-                    });
-                  },
+                  onPressed: () => showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            title: const Text("Delete selected recipes"),
+                            content: const Text("Are you sure?"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () =>
+                                      removeSelectedRecipes(selectedRecipes)
+                                          .then((value) {
+                                        loadRecipes();
+                                        Navigator.pop(context);
+                                      }),
+                                  child: const Text("Delete")),
+                              TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text("Cancel")),
+                            ],
+                          )),
                   icon: const Icon(Icons.delete)),
           ],
         ),
