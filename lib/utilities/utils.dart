@@ -21,7 +21,7 @@ class Utils {
     });
   }
 
-  static Future<void> import() async {
+  static Future<int> import() async {
     const XTypeGroup typeGroup = XTypeGroup(
       label: 'Reciper export',
       extensions: <String>['json'],
@@ -34,5 +34,6 @@ class Utils {
       DatabaseService db = DatabaseService();
       db.import(backupContent);
     }
+    return 1;
   }
 }

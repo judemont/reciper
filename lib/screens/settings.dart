@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:reciper/screens/home.dart';
+import 'package:reciper/screens/pages_layout.dart';
 import 'package:reciper/utilities/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -25,8 +27,10 @@ class Settings extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Utils.import();
-                Navigator.pop(context);
+                Utils.import().then((value) => Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const PagesLayout(child: HomePage()))));
               },
               child: const Text("Import recipes"),
             ),
