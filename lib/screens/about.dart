@@ -10,7 +10,7 @@ class About extends StatelessWidget {
         title: const Text('About'),
         centerTitle: true,
       ),
-      body: Column(
+      body: const Column(
         children: [
           Text(
             "eeeeeee",

@@ -10,11 +10,11 @@ class PagesLayout extends StatefulWidget {
   final int? currentSection;
 
   const PagesLayout({
-    Key? key,
+    super.key,
     required this.child,
     this.displayBottomNavBar = true,
     this.currentSection,
-  }) : super(key: key);
+  });
 
   @override
   State<PagesLayout> createState() => _PagesLayoutState();

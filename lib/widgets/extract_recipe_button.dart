@@ -14,7 +14,7 @@ class _ExtractRecipeButtonState extends State<ExtractRecipeButton> {
     return FloatingActionButton(
       child: const Icon(Icons.add_link),
       onPressed: () => showDialog(
-          context: context, builder: (context) => ExtractRecipeDialog()),
+          context: context, builder: (context) => const ExtractRecipeDialog()),
     );
   }
 }
