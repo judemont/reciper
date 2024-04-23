@@ -28,5 +28,6 @@ Extracting recipes from a website works using the [recipe_extractor](https://git
 | bbcgoodfood.com          |
 | simplyrecipes.com        |
 | recipetineats.com        |
+| topsecretrecipes.com     |
 
 More coming soon...

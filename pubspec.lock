@@ -492,10 +492,10 @@ packages:
     dependency: "direct main"
     description:
       name: recipe_extractor
-      sha256: "0c324aac0acebc5dc81c2673e00c3c058aa6a689999a002316d89bc1afb65b6f"
+      sha256: "3db68306690aff0f12d4751b57c2ca5df65ee2f1c2048eb780f63badf68c9d90"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.0"
+    version: "2.5.1"
   share_plus:
     dependency: "direct main"
     description:
@@ -617,10 +617,10 @@ packages:
     dependency: "direct main"
     description:
       name: sqlite3_flutter_libs
-      sha256: d6c31c8511c441d1f12f20b607343df1afe4eddf24a1cf85021677c8eea26060
+      sha256: fb2a106a2ea6042fe57de2c47074cc31539a941819c91e105b864744605da3f5
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.20"
+    version: "0.5.21"
   stack_trace:
     dependency: transitive
     description:

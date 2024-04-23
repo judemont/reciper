@@ -37,8 +37,9 @@ class _ExtractRecipeDialogState extends State<ExtractRecipeDialog> {
           onPressed: () async {
             String recipeUrl = recipeSiteUrlController.text;
             RecipeData recipeData = await extractRecipe(recipeUrl);
-
-            if (recipeData.name == null) {
+            if (recipeData.name == null &&
+                recipeData.ingredients == null &&
+                recipeData.instructions == null) {
               print("Failed to extract recipe");
               SnackBar errorBar = const SnackBar(
                 content: Text("Failed to extract recipe"),
