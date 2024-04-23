@@ -7,31 +7,36 @@ import 'package:reciper/widgets/bottom_nav_bar.dart';
 class PagesLayout extends StatefulWidget {
   final Widget? child;
   final bool displayBottomNavBar;
+  final int currentSection;
 
-  const PagesLayout({super.key, this.child, this.displayBottomNavBar = true});
+  const PagesLayout(
+      {super.key,
+      this.child,
+      this.displayBottomNavBar = true,
+      this.currentSection = 0});
 
   @override
   State<PagesLayout> createState() => _PagesLayoutState();
 }
 
 class _PagesLayoutState extends State<PagesLayout> {
-  int? currentPageIndex;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: currentPageIndex == null
-          ? widget.child
-          : [
-              const HomePage(),
-              const RecipeEditorPage(),
-              const Settings()
-            ][currentPageIndex!],
+      body: widget.child,
       bottomNavigationBar: widget.displayBottomNavBar
           ? BottomNavBar(
-              selectedIndex: currentPageIndex ?? 0,
+              selectedIndex: widget.currentSection,
               onDestinationSelected: (index) => setState(() {
-                currentPageIndex = index;
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => PagesLayout(
+                      currentSection: index,
+                      child: [
+                        const HomePage(),
+                        const RecipeEditorPage(),
+                        const Settings(),
+                      ][index]),
+                ));
               }),
             )
           : null,

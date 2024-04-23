@@ -43,6 +43,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                   Navigator.of(context)
                       .push(MaterialPageRoute(
                         builder: (context) => PagesLayout(
+                            currentSection: 1,
                             displayBottomNavBar: false,
                             child: RecipeEditorPage(
                               initialRecipe: widget.recipe,

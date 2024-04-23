@@ -53,6 +53,7 @@ class _ExtractRecipeDialogState extends State<ExtractRecipeDialog> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => PagesLayout(
+                            currentSection: 1,
                             child: RecipeEditorPage(
                               initialRecipe: Recipe(
                                 title: recipeData.name ?? "",
