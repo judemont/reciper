@@ -1,10 +1,11 @@
 //import 'dart:js_interop';
 
+import 'dart:convert';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/recipe.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:encrypt/encrypt.dart' as encrypt;
 import 'dart:convert' as convert;
 
 class DatabaseService {
@@ -13,8 +14,6 @@ class DatabaseService {
 
   static const databaseVersion = 3;
   List<String> tables = ["Recipes"];
-
-  static const secretKey = "2023_PRIVATE_KEY_ENCRYPT_2023";
 
   static Future<Database> initializeDb() async {
     final databasePath = (await getApplicationDocumentsDirectory()).path;
@@ -138,42 +137,28 @@ class DatabaseService {
 
     List backups = [tables, data];
 
-    String json = convert.jsonEncode(backups);
-
-    if (isEncrypted) {
-      var key = encrypt.Key.fromUtf8(secretKey);
-      var iv = encrypt.IV.fromLength(16);
-      var encrypter = encrypt.Encrypter(encrypt.AES(key));
-      var encrypted = encrypter.encrypt(json, iv: iv);
-
-      return encrypted.base64;
-    } else {
-      return json;
-    }
+    String jsonData = jsonEncode(backups);
+    print(jsonData);
+    return jsonData;
   }
 
-  Future<void> import(String backup, {bool isEncrypted = false}) async {
-    print("IIIIIIIMMMMPOOORT");
+  Future<void> import(String backup) async {
+    print(backup);
     var dbs = await DatabaseService.initializeDb();
 
     Batch batch = dbs.batch();
 
-    var key = encrypt.Key.fromUtf8(secretKey);
-    var iv = encrypt.IV.fromLength(16);
-    var encrypter = encrypt.Encrypter(encrypt.AES(key));
-
-    List json = convert
-        .jsonDecode(isEncrypted ? encrypter.decrypt64(backup, iv: iv) : backup);
-
+    List jsonData = jsonDecode(backup);
+    print(jsonData);
     List<Recipe> actualRecipes = await DatabaseService.getRecipes();
 
-    for (var i = 0; i < json[0].length; i++) {
-      for (var k = 0; k < json[1][i].length; k++) {
+    for (var i = 0; i < jsonData[0].length; i++) {
+      for (var k = 0; k < jsonData[1][i].length; k++) {
         if (actualRecipes
-            .where((recipe) => recipe.title == json[1][i][k]["title"])
+            .where((recipe) => recipe.title == jsonData[1][i][k]["title"])
             .isEmpty) {
-          json[1][i][k]["id"] = null;
-          batch.insert(json[0][i], json[1][i][k]);
+          jsonData[1][i][k]["id"] = null;
+          batch.insert(jsonData[0][i], jsonData[1][i][k]);
         }
       }
     }
