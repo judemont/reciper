@@ -27,7 +27,7 @@ class Settings extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Utils.import().then((value) => Navigator.of(context).push(
+                Utils.userImport().then((value) => Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (context) =>
                             const PagesLayout(child: HomePage()))));
@@ -42,9 +42,16 @@ class Settings extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Utils.export();
+                Utils.userExport();
               },
               child: const Text("Export recipes"),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Utils.userPdfExport();
+              },
+              child: const Text("Export recipes to PDF"),
             ),
             const SizedBox(height: 20),
             const Text(

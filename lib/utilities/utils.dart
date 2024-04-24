@@ -1,15 +1,17 @@
 import 'dart:io';
-
+import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:file_selector/file_selector.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:reciper/models/recipe.dart';
 import 'package:reciper/utilities/database.dart';
 import 'package:share_plus/share_plus.dart';
 
 class Utils {
-  static Future<void> export() async {
-    Directory appDocumentsDirectory =
-        await getApplicationDocumentsDirectory(); // 1
-    String appDocumentsPath = appDocumentsDirectory.path;
+  static Future<void> userExport() async {
+    Directory directory = await getTemporaryDirectory();
+    String appDocumentsPath = directory.path;
     String filePath = '$appDocumentsPath/Reciper_Export.json';
 
     File file = File(filePath);
@@ -21,7 +23,7 @@ class Utils {
     });
   }
 
-  static Future<int> import() async {
+  static Future<int> userImport() async {
     const XTypeGroup typeGroup = XTypeGroup(
       label: 'Reciper export',
       extensions: <String>['json'],
@@ -35,5 +37,44 @@ class Utils {
       db.import(backupContent);
     }
     return 1;
+  }
+
+  static Future<void> userPdfExport() async {
+    Directory directory = await getTemporaryDirectory();
+    String appDocumentsPath = directory.path;
+    String filePath = '$appDocumentsPath/recipes.pdf';
+
+    File file = File(filePath);
+
+    final pdf = pw.Document();
+    List<Recipe> recipes = await DatabaseService.getRecipes();
+
+    recipes.forEach((recipe) {
+      pdf.addPage(pw.MultiPage(
+          pageFormat: PdfPageFormat.a4,
+          build: (pw.Context context) => [
+                pw.ListView(children: [
+                  pw.Text(recipe.title ?? "",
+                      style: pw.TextStyle(
+                          fontSize: 35, fontWeight: pw.FontWeight.bold)),
+                  pw.SizedBox(height: 60),
+                  pw.Text("Ingredients : ",
+                      style: pw.TextStyle(
+                          fontSize: 20, fontWeight: pw.FontWeight.bold)),
+                  pw.SizedBox(height: 20),
+                  pw.Text(recipe.ingredients ?? "",
+                      overflow: pw.TextOverflow.span),
+                  pw.SizedBox(height: 40),
+                  pw.Text("Instructions : ",
+                      style: pw.TextStyle(
+                          fontSize: 20, fontWeight: pw.FontWeight.bold)),
+                  pw.SizedBox(height: 20),
+                  pw.Text(recipe.steps ?? "", overflow: pw.TextOverflow.span),
+                ])
+              ]));
+    });
+
+    await file.writeAsBytes(await pdf.save());
+    Share.shareXFiles([XFile(filePath)]);
   }
 }
