@@ -3,6 +3,7 @@ import 'package:reciper/screens/pages_layout.dart';
 import 'package:reciper/screens/recipe_editor.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/recipe.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class RecipeViewPage extends StatefulWidget {
   final Recipe recipe;
@@ -16,6 +17,7 @@ class RecipeViewPage extends StatefulWidget {
 class _RecipeViewPageState extends State<RecipeViewPage> {
   Map<int, bool> checkboxValuesIngredients = {};
   Map<int, bool> checkboxValuesSteps = {};
+  bool wakeLock = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,17 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
           title: const Text("Reciper"),
           centerTitle: true,
           actions: [
+            Tooltip(
+                message: "Prevent your phone from going to sleep",
+                child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      wakeLock = !wakeLock;
+                      WakelockPlus.toggle(enable: wakeLock);
+                    });
+                  },
+                  icon: Icon(wakeLock ? Icons.lock : Icons.lock_open),
+                )),
             IconButton(
                 onPressed: () {
                   Navigator.of(context)
