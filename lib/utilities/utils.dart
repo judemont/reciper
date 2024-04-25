@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:file_selector/file_selector.dart';
@@ -49,7 +48,7 @@ class Utils {
     final pdf = pw.Document();
     List<Recipe> recipes = await DatabaseService.getRecipes();
 
-    recipes.forEach((recipe) {
+    for (var recipe in recipes) {
       pdf.addPage(pw.MultiPage(
           pageFormat: PdfPageFormat.a4,
           build: (pw.Context context) => [
@@ -72,7 +71,7 @@ class Utils {
                   pw.Text(recipe.steps ?? "", overflow: pw.TextOverflow.span),
                 ])
               ]));
-    });
+    }
 
     await file.writeAsBytes(await pdf.save());
     Share.shareXFiles([XFile(filePath)]);

@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             Visibility(
                 visible: displaySearchField,
-                child: Container(
+                child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: TextField(
                       decoration: const InputDecoration(

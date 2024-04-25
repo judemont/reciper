@@ -1,7 +1,10 @@
+import 'package:catppuccin_flutter/catppuccin_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:reciper/screens/pages_layout.dart';
 import 'screens/home.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
+import 'theme.dart';
 
 Future<void> main() async {
   sqfliteFfiInit();
@@ -18,11 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: 'Reciper',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        darkTheme: ThemeData.dark(),
+        theme: catppuccinTheme(catppuccin.macchiato),
         home: const PagesLayout(child: HomePage()));
   }
 }

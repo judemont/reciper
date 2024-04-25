@@ -6,7 +6,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/recipe.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:convert' as convert;
 
 class DatabaseService {
   static const String databaseName = "reciperDB.sqlite";

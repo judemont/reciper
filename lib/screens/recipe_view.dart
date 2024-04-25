@@ -68,7 +68,6 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                       .push(MaterialPageRoute(
                         builder: (context) => PagesLayout(
                             currentSection: 1,
-                            displayBottomNavBar: false,
                             child: RecipeEditorPage(
                               initialRecipe: widget.recipe,
                               isUpdate: true,
@@ -134,15 +133,12 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                           return CheckboxListTile(
                               controlAffinity: ListTileControlAffinity.leading,
                               value: checkboxValuesSteps[index] ?? false,
-                              title: Text(
-                                stepsList[index],
-                                style: TextStyle(
-                                  color: (checkboxValuesSteps[index] ?? false)
-                                      ? Colors.grey
-                                      : Theme.of(context).brightness ==
-                                              Brightness.light
-                                          ? Colors.black
-                                          : Colors.white,
+                              title: Opacity(
+                                opacity: (checkboxValuesSteps[index] ?? false)
+                                    ? 0.5
+                                    : 1,
+                                child: Text(
+                                  stepsList[index],
                                 ),
                               ),
                               onChanged: (value) {

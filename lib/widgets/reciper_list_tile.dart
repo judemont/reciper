@@ -25,8 +25,6 @@ class _RecipeListTileState extends State<RecipeListTile> {
     return ListTile(
       title: Text(widget.recipe.title ?? ""),
       selected: widget.selectedRecipesID.contains(widget.recipe.id),
-      selectedColor: Colors.white,
-      selectedTileColor: const Color.fromARGB(255, 63, 63, 63),
       onLongPress: () {
         if (widget.selectedRecipesID.contains(widget.recipe.id)) {
           widget.selectedRecipesID.remove(widget.recipe.id);

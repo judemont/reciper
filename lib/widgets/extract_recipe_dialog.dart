@@ -39,7 +39,7 @@ class _ExtractRecipeDialogState extends State<ExtractRecipeDialog> {
             RecipeData recipeData = RecipeData();
             try {
               recipeData = await extractRecipe(recipeUrl);
-            } on Exception catch (e) {
+            } on Exception {
               SnackBar errorBar = const SnackBar(
                 content: Text("Failed to extract recipe"),
               );
