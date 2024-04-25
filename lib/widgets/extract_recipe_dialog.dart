@@ -36,7 +36,18 @@ class _ExtractRecipeDialogState extends State<ExtractRecipeDialog> {
         TextButton(
           onPressed: () async {
             String recipeUrl = recipeSiteUrlController.text;
-            RecipeData recipeData = await extractRecipe(recipeUrl);
+            RecipeData recipeData = RecipeData();
+            try {
+              recipeData = await extractRecipe(recipeUrl);
+            } on Exception catch (e) {
+              SnackBar errorBar = const SnackBar(
+                content: Text("Failed to extract recipe"),
+              );
+
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(errorBar);
+              }
+            }
             if (recipeData.name == null &&
                 recipeData.ingredients == null &&
                 recipeData.instructions == null) {
