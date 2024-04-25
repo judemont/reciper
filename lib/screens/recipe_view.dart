@@ -47,6 +47,17 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                     setState(() {
                       wakeLock = !wakeLock;
                       WakelockPlus.toggle(enable: wakeLock);
+
+                      if (wakeLock) {
+                        SnackBar message = const SnackBar(
+                          content:
+                              Text("Your phone won't go into standby mode"),
+                        );
+
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(message);
+                        }
+                      }
                     });
                   },
                   icon: Icon(wakeLock ? Icons.lock : Icons.lock_open),
