@@ -73,6 +73,15 @@ class Settings extends StatelessWidget {
                   icon: const Icon(Icons.link),
                   label: const Text("Source code (GitHub)"),
                 ),
+                const SizedBox(height: 20),
+                ElevatedButton.icon(
+                  onPressed: () => launchUrl(
+                    Uri.parse(
+                        'https://play.google.com/store/apps/details?id=jdm.apps.reciper'),
+                  ),
+                  icon: const Icon(Icons.star_rate_rounded),
+                  label: const Text("Rate Reciper on Google Play"),
+                ),
               ],
             ),
           ],
