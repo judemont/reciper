@@ -28,7 +28,6 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  encrypt: ^5.0.3
   file_selector: ^1.0.3
   flutter:
     sdk: flutter
@@ -36,7 +35,6 @@ dependencies:
   path_provider: ^2.1.2
   pdf: ^3.10.8
   recipe_extractor: ^2.5.1
-  share: ^2.0.4
   share_plus: ^8.0.3
   sqflite: ^2.3.3
   sqflite_common: ^2.5.4

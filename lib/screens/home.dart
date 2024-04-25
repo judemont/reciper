@@ -71,11 +71,17 @@ class _HomePageState extends State<HomePage> {
           children: [
             Visibility(
                 visible: displaySearchField,
-                child: TextField(
-                  onChanged: (value) {
-                    loadRecipes(searchQuery: value);
-                  },
-                )),
+                child: Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Search',
+                      ),
+                      onChanged: (value) {
+                        loadRecipes(searchQuery: value);
+                      },
+                    ))),
             RecipeListView(
               reloadRecipes: loadRecipes,
               recipes: recipes,
