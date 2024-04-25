@@ -22,12 +22,12 @@ Extracting recipes from a website works using the [recipe_extractor](https://git
 
 | Supported recipe sites : |
 | ------------------------ |
-| marmiton.org             |
 | allrecipes.com           |
-| swissmilk.ch             |
 | bbcgoodfood.com          |
-| simplyrecipes.com        |
+| marmiton.org             |
 | recipetineats.com        |
+| simplyrecipes.com        |
+| swissmilk.ch             |
 | topsecretrecipes.com     |
 
 More coming soon...
