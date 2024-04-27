@@ -49,6 +49,21 @@ class DatabaseService {
       if (oldVersion < 3) {
         db.execute("""ALTER TABLE Recipes ADD COLUMN source TEXT """);
       }
+      if (oldVersion < 4) {
+        db.execute("""
+          CREATE TABLE Tags(
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              name TEXT
+          )
+        """);
+
+        db.execute("""
+          CREATE TABLE RecipesTags(
+              recipeId INTEGER,
+              tagId INTEGER,
+          )
+        """);
+      }
     }
   }
 
@@ -61,6 +76,19 @@ class DatabaseService {
           servings TEXT,
           ingredients TEXT,
           source TEXT
+      )
+    """);
+
+    await database.execute("""
+      CREATE TABLE Tags(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT
+      )
+    """);
+    await database.execute("""
+      CREATE TABLE RecipesTags(
+          recipeId INTEGER,
+          tagId INTEGER,
       )
     """);
   }
