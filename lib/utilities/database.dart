@@ -2,6 +2,8 @@
 
 import 'dart:convert';
 
+import 'package:reciper/models/tagLink.dart';
+import 'package:reciper/models/tag.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/recipe.dart';
@@ -58,7 +60,7 @@ class DatabaseService {
         """);
 
         db.execute("""
-          CREATE TABLE RecipesTags(
+          CREATE TABLE TagsLinks(
               recipeId INTEGER,
               tagId INTEGER,
           )
@@ -86,7 +88,7 @@ class DatabaseService {
       )
     """);
     await database.execute("""
-      CREATE TABLE RecipesTags(
+      CREATE TABLE TagsLinks(
           recipeId INTEGER,
           tagId INTEGER,
       )
@@ -110,13 +112,48 @@ class DatabaseService {
     return id;
   }
 
+  static Future<int> createTag(Tag tag) async {
+    print("CREATE");
+
+    final db = await DatabaseService.initializeDb();
+
+    final id = await db.insert('Tags', Tag(name: tag.name).toMap());
+    return id;
+  }
+
   static Future<List<Recipe>> getRecipes({String searchQuery = ""}) async {
     final db = await DatabaseService.initializeDb();
 
-    final List<Map<String, dynamic>> queryResult =
+    List<Map<String, dynamic>> queryResult =
         await db.query('Recipes', where: "title LIKE '%$searchQuery%'");
 
     return queryResult.map((e) => Recipe.fromMap(e)).toList();
+  }
+
+  static Future<List<Tag>> getTags(int? recipeId) async {
+    final db = await DatabaseService.initializeDb();
+
+    List<Map<String, dynamic>> queryResult = await db.query('Tags');
+
+    return queryResult.map((e) => Tag.fromMap(e)).toList();
+  }
+
+  static Future<List<Tag>> getTagsFromRecipe(int recipeId) async {
+    final db = await DatabaseService.initializeDb();
+
+    List<Map<String, dynamic>> recipeTagsLinks =
+        await db.query('TagsLinks', where: "recipeId = $recipeId");
+
+    List<Tag> recipeTags = [];
+
+    for (var tagLink in recipeTagsLinks) {
+      List<Map<String, dynamic>> tag =
+          await db.query('Tags', where: "id = ${tagLink['tagId']}");
+
+      recipeTags.add(Tag.fromMap(tag[0]));
+    }
+
+    return recipeTags;
   }
 
   static Future<Recipe> getRecipe(int id) async {
