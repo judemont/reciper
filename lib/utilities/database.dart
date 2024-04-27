@@ -13,7 +13,7 @@ class DatabaseService {
   static const String databaseName = "reciperDB.sqlite";
   static Database? db;
 
-  static const databaseVersion = 3;
+  static const databaseVersion = 4;
   List<String> tables = ["Recipes"];
 
   static Future<Database> initializeDb() async {
@@ -113,11 +113,17 @@ class DatabaseService {
   }
 
   static Future<int> createTag(Tag tag) async {
-    print("CREATE");
-
     final db = await DatabaseService.initializeDb();
 
     final id = await db.insert('Tags', Tag(name: tag.name).toMap());
+    return id;
+  }
+
+  static Future<int> createTagLink(int tagId, int recipeId) async {
+    final db = await DatabaseService.initializeDb();
+
+    final id =
+        await db.insert('TagsLinks', {"tagId": tagId, "recipeId": recipeId});
     return id;
   }
 
@@ -176,12 +182,31 @@ class DatabaseService {
     db.delete("Recipes", where: "id = $recipeId");
   }
 
+  static Future<void> removeTag(int tagId) async {
+    final db = await DatabaseService.initializeDb();
+    db.delete("Tags", where: "id = $tagId");
+  }
+
+  static Future<void> removeTagLink(int? tagId, int? recipeId) async {
+    final db = await DatabaseService.initializeDb();
+    db.delete("TagsLinks",
+        where: "tagId = ${tagId ?? "*"} AND recipeId = ${recipeId ?? "*"}");
+  }
+
   static Future<void> updateRecipe(Recipe recipe) async {
     print("UPDATE");
 
     final db = await DatabaseService.initializeDb();
     db.update("Recipes", recipe.toMap(),
         where: 'id = ?', whereArgs: [recipe.id]);
+  }
+
+  static Future<void> updateTag(Tag tag) async {
+    print("UPDATE");
+
+    final db = await DatabaseService.initializeDb();
+
+    db.update("Tags", tag.toMap(), where: 'id = ?', whereArgs: [tag.id]);
   }
 
   Future<String> export({bool isEncrypted = false}) async {
