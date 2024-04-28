@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:reciper/models/tag.dart';
 import 'package:reciper/screens/pages_layout.dart';
 import 'package:reciper/utilities/database.dart';
 import 'package:reciper/models/recipe.dart';
 import 'package:reciper/screens/home.dart';
 import 'package:reciper/widgets/extract_recipe_button.dart';
+import 'package:reciper/widgets/recipeTagSelector.dart';
 
 class RecipeEditorPage extends StatefulWidget {
   // final String initialTitle;
@@ -28,6 +31,20 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
   String servings = "";
   String source = "";
 
+  List<Tag> tags = [];
+  List<int> selectedTagsId = [];
+
+  @override
+  void initState() {
+    loadTags();
+    if (widget.initialRecipe != null) {
+      DatabaseService.getTagsFromRecipe(widget.initialRecipe!.id!).then((tags) {
+        selectedTagsId = tags.map((e) => e.id!).toList();
+      });
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,12 +61,25 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
 
                     if (!widget.isUpdate) {
                       DatabaseService.createRecipe(Recipe(
-                          title: title,
-                          servings: servings,
-                          steps: steps,
-                          ingredients: ingredients,
-                          source: source));
+                              title: title,
+                              servings: servings,
+                              steps: steps,
+                              ingredients: ingredients,
+                              source: source))
+                          .then((recipeId) {
+                        for (var tag in tags) {
+                          DatabaseService.createTagLink(tag.id!, recipeId);
+                        }
+                      });
                     } else {
+                      DatabaseService.removeTagLink(
+                              recipeId: widget.initialRecipe!.id)
+                          .then((value) {
+                        for (var tag in tags) {
+                          DatabaseService.createTagLink(
+                              tag.id!, widget.initialRecipe!.id!);
+                        }
+                      });
                       DatabaseService.updateRecipe(Recipe(
                           id: widget.initialRecipe!.id,
                           servings: servings,
@@ -93,6 +123,22 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                     hintText: 'Title',
                   ),
                 ),
+                SizedBox(height: fieldsMargin),
+                Container(
+                    height: 50,
+                    child: Row(
+                      children: [
+                        const Text("Tags : "),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        RecipeTagSelector(
+                            tags: tags,
+                            onTagsUpdate: loadTags,
+                            selectedTagsId: selectedTagsId,
+                            onTagsSelectionUpdate: onTagsSelectionUpdate)
+                      ],
+                    )),
                 SizedBox(height: fieldsMargin),
                 TextFormField(
                   initialValue: widget.initialRecipe?.servings,
@@ -152,5 +198,20 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
             ),
           ),
         )));
+  }
+
+  Future<void> loadTags() async {
+    DatabaseService.getTags().then((List<Tag> result) {
+      setState(() {
+        tags = result;
+      });
+    });
+  }
+
+  Future<void> onTagsSelectionUpdate(List<int> values) async {
+    setState(() {
+      selectedTagsId = values;
+      print(selectedTagsId);
+    });
   }
 }

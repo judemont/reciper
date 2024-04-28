@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reciper/models/tag.dart';
 import 'package:reciper/utilities/database.dart';
+import 'package:reciper/widgets/newTagDialog.dart';
 
 class TagsSelector extends StatefulWidget {
   final List<Tag> tags;
@@ -25,9 +26,14 @@ class _TagsSelectorState extends State<TagsSelector> {
   bool isAllChecked = true;
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController newTagInputController = TextEditingController();
+  void initState() {
+    print(widget.tags.map((e) => e.id!).toList().toString() + "INITSTATE");
+    widget.onTagsSelectionUpdate(widget.tags.map((e) => e.id!).toList());
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -85,27 +91,8 @@ class _TagsSelectorState extends State<TagsSelector> {
             leading: const Icon(Icons.add),
             title: const Text('New Tag'),
             onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                          title: const Text("New Tag"),
-                          content: TextField(
-                            controller: newTagInputController,
-                            decoration:
-                                const InputDecoration(hintText: "Tag name"),
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              child: const Text("save"),
-                              onPressed: () {
-                                DatabaseService.createTag(
-                                    Tag(name: newTagInputController.text));
-
-                                widget.onTagsUpdate();
-                                Navigator.pop(context);
-                              },
-                            )
-                          ]));
+              showDialog(context: context, builder: (context) => NewTagDialog())
+                  .then((value) => widget.onTagsUpdate());
             },
           ),
         ],

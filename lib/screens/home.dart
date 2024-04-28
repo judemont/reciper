@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     loadRecipes();
     loadTags();
+
     super.initState();
   }
 
@@ -119,6 +120,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> onTagsSelectionUpdate(List<int> values) async {
     setState(() {
       selectedTagsId = values;
+      print(selectedTagsId);
     });
   }
 

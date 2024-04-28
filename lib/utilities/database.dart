@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:reciper/models/tagLink.dart';
 import 'package:reciper/models/tag.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -60,7 +59,7 @@ class DatabaseService {
         db.execute("""
           CREATE TABLE TagsLinks(
               recipeId INTEGER,
-              tagId INTEGER,
+              tagId INTEGER
           )
         """);
       }
@@ -88,7 +87,7 @@ class DatabaseService {
     await database.execute("""
       CREATE TABLE TagsLinks(
           recipeId INTEGER,
-          tagId INTEGER,
+          tagId INTEGER
       )
     """);
   }
