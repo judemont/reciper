@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:reciper/models/tag.dart';
 import 'package:reciper/screens/pages_layout.dart';
 import 'package:reciper/utilities/database.dart';
@@ -124,7 +123,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                   ),
                 ),
                 SizedBox(height: fieldsMargin),
-                Container(
+                SizedBox(
                     height: 50,
                     child: Row(
                       children: [
@@ -212,7 +211,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
   Future<void> onTagsSelectionUpdate(List<int> values) async {
     setState(() {
       selectedTagsId = values;
-      print(selectedTagsId.toString() + "çççççççççççççççç");
+      print("$selectedTagsIdçççççççççççççççç");
     });
   }
 }

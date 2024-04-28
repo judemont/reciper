@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:reciper/models/tag.dart';
-import 'package:reciper/utilities/database.dart';
 import 'package:reciper/widgets/newTagDialog.dart';
 import 'package:reciper/widgets/tagActionsDialog.dart';
 
@@ -12,12 +11,11 @@ class TagsSelector extends StatefulWidget {
   final Function onTagsUpdate;
 
   const TagsSelector(
-      {Key? key,
+      {super.key,
       required this.tags,
       required this.onTagsUpdate,
       required this.selectedTagsId,
-      required this.onTagsSelectionUpdate})
-      : super(key: key);
+      required this.onTagsSelectionUpdate});
 
   @override
   State<TagsSelector> createState() => _TagsSelectorState();
@@ -89,7 +87,9 @@ class _TagsSelectorState extends State<TagsSelector> {
                   onChanged: (value) {
                     setState(() {
                       if (value ?? false) {
-                        widget.selectedTagsId.add(widget.tags[index].id!);
+                        !widget.selectedTagsId.contains(widget.tags[index].id!)
+                            ? widget.selectedTagsId.add(widget.tags[index].id!)
+                            : null;
                       } else {
                         widget.selectedTagsId.remove(widget.tags[index].id);
                       }

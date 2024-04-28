@@ -25,7 +25,6 @@ class _HomePageState extends State<HomePage> {
     loadRecipes();
     loadTags().then((value) {
       selectedTagsId.clear();
-      print(tags.toString() + "NNNN");
       selectedTagsId.addAll(tags.map((e) => e.id!).toList());
     });
 
@@ -81,6 +80,9 @@ class _HomePageState extends State<HomePage> {
         body: SingleChildScrollView(
             child: Column(
           children: [
+            const SizedBox(
+              height: 20,
+            ),
             Visibility(
                 visible: displaySearchField,
                 child: SizedBox(
@@ -94,6 +96,22 @@ class _HomePageState extends State<HomePage> {
                         loadRecipes(searchQuery: value);
                       },
                     ))),
+            const SizedBox(
+              height: 20,
+            ),
+            Visibility(
+              visible: selectedTagsId.length != tags.length,
+              child: ElevatedButton(
+                child: const Text("Remove filters"),
+                onPressed: () {
+                  setState(() {
+                    selectedTagsId.clear();
+                    selectedTagsId.addAll(tags.map((e) => e.id!).toList());
+                  });
+                  loadRecipes();
+                },
+              ),
+            ),
             RecipeListView(
               reloadRecipes: loadRecipes,
               recipes: recipes,
@@ -105,7 +123,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> loadRecipes({searchQuery = ""}) async {
-    print(selectedTagsId);
     if (selectedTagsId.length == tags.length) {
       DatabaseService.getRecipes(searchQuery: searchQuery)
           .then((List<Recipe> result) {
@@ -114,7 +131,6 @@ class _HomePageState extends State<HomePage> {
         });
       });
     } else {
-      print("FILTERRRR");
       setState(() {
         recipes = [];
       });
@@ -123,7 +139,6 @@ class _HomePageState extends State<HomePage> {
         DatabaseService.getRecipesFromTag(tagId, searchQuery: searchQuery)
             .then((values) {
           for (var recipe in values) {
-            print(recipe.title ?? "" + "UUU");
             if (!recipes.contains(recipe)) {
               setState(() {
                 recipes.add(recipe);
@@ -144,10 +159,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> onTagsSelectionUpdate(List<int> values) async {
+    print(values);
     setState(() {
       selectedTagsId = values;
     });
-    print(selectedTagsId.toString() + " tags selected");
     loadRecipes();
   }
 

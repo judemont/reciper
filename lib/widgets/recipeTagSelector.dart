@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reciper/models/tag.dart';
 import 'package:reciper/widgets/newTagDialog.dart';

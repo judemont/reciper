@@ -153,7 +153,7 @@ class DatabaseService {
       List<Map<String, dynamic>> tag =
           await db.query('Tags', where: "id = ${tagLink['tagId']}");
 
-      recipeTags.add(Tag.fromMap(tag[0]));
+      tag.isNotEmpty ? recipeTags.add(Tag.fromMap(tag[0])) : null;
     }
 
     return recipeTags;
