@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:reciper/models/tag.dart';
 import 'package:reciper/utilities/database.dart';
 
-class NewTagDialog extends StatelessWidget {
-  const NewTagDialog({super.key});
+class TagActionDialog extends StatelessWidget {
+  final Tag tag;
+  const TagActionDialog({super.key, required this.tag});
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController newTagInputController = TextEditingController();
+    TextEditingController newTagInputController =
+        TextEditingController(text: tag.name);
 
     return AlertDialog(
-        title: const Text("New Tag"),
+        title: const Text("Tag options"),
         content: TextField(
           controller: newTagInputController,
-          decoration: const InputDecoration(hintText: "Tag name"),
+          decoration: const InputDecoration(hintText: "Rename Tag"),
         ),
         actions: <Widget>[
           TextButton(
@@ -22,9 +24,16 @@ class NewTagDialog extends StatelessWidget {
                 Navigator.pop(context);
               }),
           TextButton(
+              child: const Text("delete tag"),
+              onPressed: () {
+                DatabaseService.removeTag(tag.id!);
+                Navigator.pop(context);
+              }),
+          TextButton(
             child: const Text("save"),
             onPressed: () {
-              DatabaseService.createTag(Tag(name: newTagInputController.text));
+              tag.name = newTagInputController.text;
+              DatabaseService.updateTag(tag);
 
               Navigator.pop(context);
             },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reciper/models/tag.dart';
 import 'package:reciper/utilities/database.dart';
 import 'package:reciper/widgets/newTagDialog.dart';
+import 'package:reciper/widgets/tagActionsDialog.dart';
 
 class TagsSelector extends StatefulWidget {
   final List<Tag> tags;
@@ -74,20 +75,29 @@ class _TagsSelectorState extends State<TagsSelector> {
             shrinkWrap: true,
             itemCount: widget.tags.length,
             itemBuilder: (BuildContext context, int index) {
-              return CheckboxListTile(
-                value: widget.selectedTagsId.contains(widget.tags[index].id),
-                title: Text(widget.tags[index].name ?? ""),
-                onChanged: (value) {
-                  setState(() {
-                    if (value ?? false) {
-                      widget.selectedTagsId.add(widget.tags[index].id!);
-                    } else {
-                      widget.selectedTagsId.remove(widget.tags[index].id);
-                    }
-                    widget.onTagsSelectionUpdate(widget.selectedTagsId);
-                    widget.onTagsUpdate();
-                  });
-                },
+              return GestureDetector(
+                onLongPress: () => showDialog(
+                    context: context,
+                    builder: (context) =>
+                        TagActionDialog(tag: widget.tags[index])).then((value) {
+                  widget.onTagsUpdate();
+                  widget.selectedTagsId.clear();
+                }),
+                child: CheckboxListTile(
+                  value: widget.selectedTagsId.contains(widget.tags[index].id),
+                  title: Text(widget.tags[index].name ?? ""),
+                  onChanged: (value) {
+                    setState(() {
+                      if (value ?? false) {
+                        widget.selectedTagsId.add(widget.tags[index].id!);
+                      } else {
+                        widget.selectedTagsId.remove(widget.tags[index].id);
+                      }
+                      widget.onTagsSelectionUpdate(widget.selectedTagsId);
+                      widget.onTagsUpdate();
+                    });
+                  },
+                ),
               );
             },
           ),
@@ -96,9 +106,12 @@ class _TagsSelectorState extends State<TagsSelector> {
             title: const Text('New Tag'),
             onTap: () {
               showDialog(
-                      context: context,
-                      builder: (context) => const NewTagDialog())
-                  .then((value) => widget.onTagsUpdate());
+                  context: context,
+                  builder: (context) => const NewTagDialog()).then((value) {
+                widget.onTagsUpdate().then((value) {
+                  widget.onTagsSelectionUpdate([]);
+                });
+              });
             },
           ),
         ],
