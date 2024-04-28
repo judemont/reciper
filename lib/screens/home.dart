@@ -114,6 +114,7 @@ class _HomePageState extends State<HomePage> {
         });
       });
     } else {
+      print("FILTERRRR");
       setState(() {
         recipes = [];
       });
@@ -122,6 +123,7 @@ class _HomePageState extends State<HomePage> {
         DatabaseService.getRecipesFromTag(tagId, searchQuery: searchQuery)
             .then((values) {
           for (var recipe in values) {
+            print(recipe.title ?? "" + "UUU");
             if (!recipes.contains(recipe)) {
               setState(() {
                 recipes.add(recipe);
