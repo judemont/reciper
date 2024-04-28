@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reciper/models/tag.dart';
-import 'package:reciper/widgets/tagsSelector.dart';
+import 'package:reciper/widgets/tags_selector.dart';
 import '../utilities/database.dart';
 import '../models/recipe.dart';
 import '../widgets/recipes_list.dart';

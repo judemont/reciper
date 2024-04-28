@@ -5,7 +5,7 @@ import 'package:reciper/utilities/database.dart';
 import 'package:reciper/models/recipe.dart';
 import 'package:reciper/screens/home.dart';
 import 'package:reciper/widgets/extract_recipe_button.dart';
-import 'package:reciper/widgets/recipeTagSelector.dart';
+import 'package:reciper/widgets/recipe_tag_selector.dart';
 
 class RecipeEditorPage extends StatefulWidget {
   // final String initialTitle;

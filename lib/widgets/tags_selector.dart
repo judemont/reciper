@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reciper/models/tag.dart';
-import 'package:reciper/widgets/newTagDialog.dart';
-import 'package:reciper/widgets/tagActionsDialog.dart';
+import 'package:reciper/widgets/new_tag_dialog.dart';
+import 'package:reciper/widgets/tag_actions_dialog.dart';
 
 class TagsSelector extends StatefulWidget {
   final List<Tag> tags;

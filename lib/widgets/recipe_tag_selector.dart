@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reciper/models/tag.dart';
-import 'package:reciper/widgets/newTagDialog.dart';
+import 'package:reciper/widgets/new_tag_dialog.dart';
 
 class RecipeTagSelector extends StatefulWidget {
   final List<Tag> tags;
