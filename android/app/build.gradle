@@ -51,18 +51,11 @@ android {
         versionName flutterVersionName
     }
 
-    signingConfigs {
-        release {
-            storeFile file("release-key.jks")
-            storePassword "iu2t7LwN"
-            keyAlias "my-key"
-            keyPassword "iu2t7LwN"
-        }
-    }
-    
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -72,7 +65,6 @@ android {
         // Disables dependency metadata when building Android App Bundles.
         includeInBundle = false
     }
-
 }
 
 flutter {
