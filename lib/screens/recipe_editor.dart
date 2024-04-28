@@ -204,6 +204,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
     DatabaseService.getTags().then((List<Tag> result) {
       setState(() {
         tags = result;
+        tags.sort((a, b) => (a.name ?? "").compareTo(b.name ?? ""));
       });
     });
   }

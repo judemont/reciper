@@ -206,7 +206,7 @@ class DatabaseService {
   static Future<void> removeTagLink({int? tagId, int? recipeId}) async {
     final db = await DatabaseService.initializeDb();
     db.delete("TagsLinks",
-        where: "tagId = ${tagId ?? "*"} AND recipeId = ${recipeId ?? "*"}");
+        where: "tagId = ${tagId ?? "tagId"} AND recipeId = ${recipeId ?? "*"}");
   }
 
   static Future<void> updateRecipe(Recipe recipe) async {

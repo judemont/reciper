@@ -137,6 +137,7 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> loadTags() async {
     List<Tag> result = await DatabaseService.getTags();
+    result.sort((a, b) => (a.name ?? "").compareTo(b.name ?? ""));
     setState(() {
       tags = result;
     });
