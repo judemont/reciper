@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:reciper/models/tag.dart';
+import 'package:reciper/widgets/tagsSelector.dart';
 import '../utilities/database.dart';
 import '../models/recipe.dart';
 import '../widgets/recipes_list.dart';
@@ -12,12 +14,16 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Recipe> recipes = [];
+  List<Tag> tags = [];
+
+  List<int> selectedTagsId = [];
   List<int> selectedRecipes = [];
   bool displaySearchField = false;
 
   @override
   void initState() {
     loadRecipes();
+    loadTags();
     super.initState();
   }
 
@@ -25,7 +31,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
           title: const Text("Reciper"),
           centerTitle: true,
           actions: [
@@ -61,11 +66,13 @@ class _HomePageState extends State<HomePage> {
                   icon: const Icon(Icons.delete)),
           ],
         ),
-        // drawer: Drawer(
-        //     child: Settings(
-        //   backup: backup,
-        //   restore: import,
-        // )),
+        drawer: Drawer(
+          child: TagsSelector(
+              tags: tags,
+              onTagsSelectionUpdate: onTagsSelectionUpdate,
+              onTagsUpdate: loadTags,
+              selectedTagsId: selectedTagsId),
+        ),
         body: SingleChildScrollView(
             child: Column(
           children: [
@@ -98,6 +105,20 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         recipes = result;
       });
+    });
+  }
+
+  Future<void> loadTags() async {
+    DatabaseService.getTags().then((List<Tag> result) {
+      setState(() {
+        tags = result;
+      });
+    });
+  }
+
+  Future<void> onTagsSelectionUpdate(List<int> values) async {
+    setState(() {
+      selectedTagsId = values;
     });
   }
 

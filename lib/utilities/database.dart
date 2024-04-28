@@ -1,5 +1,3 @@
-//import 'dart:js_interop';
-
 import 'dart:convert';
 
 import 'package:reciper/models/tagLink.dart';
@@ -136,7 +134,7 @@ class DatabaseService {
     return queryResult.map((e) => Recipe.fromMap(e)).toList();
   }
 
-  static Future<List<Tag>> getTags(int? recipeId) async {
+  static Future<List<Tag>> getTags({int? recipeId}) async {
     final db = await DatabaseService.initializeDb();
 
     List<Map<String, dynamic>> queryResult = await db.query('Tags');
@@ -187,7 +185,7 @@ class DatabaseService {
     db.delete("Tags", where: "id = $tagId");
   }
 
-  static Future<void> removeTagLink(int? tagId, int? recipeId) async {
+  static Future<void> removeTagLink({int? tagId, int? recipeId}) async {
     final db = await DatabaseService.initializeDb();
     db.delete("TagsLinks",
         where: "tagId = ${tagId ?? "*"} AND recipeId = ${recipeId ?? "*"}");
