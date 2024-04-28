@@ -133,7 +133,7 @@ class DatabaseService {
     return queryResult.map((e) => Recipe.fromMap(e)).toList();
   }
 
-  static Future<List<Tag>> getTags({int? recipeId}) async {
+  static Future<List<Tag>> getTags() async {
     final db = await DatabaseService.initializeDb();
 
     List<Map<String, dynamic>> queryResult = await db.query('Tags');
@@ -157,6 +157,25 @@ class DatabaseService {
     }
 
     return recipeTags;
+  }
+
+  static Future<List<Recipe>> getRecipesFromTag(int tagId,
+      {String searchQuery = ""}) async {
+    final db = await DatabaseService.initializeDb();
+
+    List<Map<String, dynamic>> tagRecipesLinks =
+        await db.query('TagsLinks', where: "tagId = $tagId");
+
+    List<Recipe> tagsRecipe = [];
+
+    for (var tagLink in tagRecipesLinks) {
+      List<Map<String, dynamic>> recipes = await db.query('Recipes',
+          where: "id = ${tagLink['recipeId']} AND title LIKE '%$searchQuery%'");
+
+      tagsRecipe.add(Recipe.fromMap(recipes[0]));
+    }
+
+    return tagsRecipe;
   }
 
   static Future<Recipe> getRecipe(int id) async {

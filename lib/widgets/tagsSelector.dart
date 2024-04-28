@@ -25,12 +25,14 @@ class TagsSelector extends StatefulWidget {
 class _TagsSelectorState extends State<TagsSelector> {
   bool isAllChecked = true;
 
-  @override
-  void initState() {
-    print(widget.tags.map((e) => e.id!).toList().toString() + "INITSTATE");
-    widget.onTagsSelectionUpdate(widget.tags.map((e) => e.id!).toList());
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   List<int> allTagIds = widget.tags.map((e) => e.id!).toList();
+  //   widget.selectedTagsId.removeWhere((element) => true);
+  //   widget.selectedTagsId.addAll(allTagIds);
+  //   widget.onTagsSelectionUpdate(widget.selectedTagsId);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,23 +53,23 @@ class _TagsSelectorState extends State<TagsSelector> {
             ),
           ),
           CheckboxListTile(
-              title: const Text("All"),
-              value: isAllChecked,
-              secondary: Icon(Icons.all_inclusive),
-              onChanged: (value) {
-                setState(() {
-                  isAllChecked = value ?? false;
-                });
+            title: const Text("All"),
+            value: widget.selectedTagsId.length == widget.tags.length,
+            secondary: const Icon(Icons.select_all),
+            onChanged: (value) {
+              setState(() {
+                isAllChecked = value ?? false;
                 if (isAllChecked) {
-                  List<int> ids = widget.tags.map((e) => e.id!).toList();
-                  // widget.selectedTagsId = ids;
-                  widget.onTagsSelectionUpdate(ids);
+                  List<int> allTagIds = widget.tags.map((e) => e.id!).toList();
+                  widget.selectedTagsId.clear();
+                  widget.selectedTagsId.addAll(allTagIds);
                 } else {
-                  List<int> ids = [];
-                  widget.onTagsSelectionUpdate(ids);
-                  print("unchecked");
+                  widget.selectedTagsId.clear();
                 }
-              }),
+                widget.onTagsSelectionUpdate(widget.selectedTagsId);
+              });
+            },
+          ),
           ListView.builder(
             shrinkWrap: true,
             itemCount: widget.tags.length,
@@ -76,13 +78,15 @@ class _TagsSelectorState extends State<TagsSelector> {
                 value: widget.selectedTagsId.contains(widget.tags[index].id),
                 title: Text(widget.tags[index].name ?? ""),
                 onChanged: (value) {
-                  if (value ?? false) {
-                    widget.selectedTagsId.add(widget.tags[index].id!);
-                  } else {
-                    widget.selectedTagsId.remove(widget.tags[index].id);
-                  }
-                  widget.onTagsSelectionUpdate(widget.selectedTagsId);
-                  widget.onTagsUpdate(widget.tags);
+                  setState(() {
+                    if (value ?? false) {
+                      widget.selectedTagsId.add(widget.tags[index].id!);
+                    } else {
+                      widget.selectedTagsId.remove(widget.tags[index].id);
+                    }
+                    widget.onTagsSelectionUpdate(widget.selectedTagsId);
+                    widget.onTagsUpdate();
+                  });
                 },
               );
             },
@@ -91,7 +95,9 @@ class _TagsSelectorState extends State<TagsSelector> {
             leading: const Icon(Icons.add),
             title: const Text('New Tag'),
             onTap: () {
-              showDialog(context: context, builder: (context) => NewTagDialog())
+              showDialog(
+                      context: context,
+                      builder: (context) => const NewTagDialog())
                   .then((value) => widget.onTagsUpdate());
             },
           ),

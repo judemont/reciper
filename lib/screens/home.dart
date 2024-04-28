@@ -23,7 +23,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     loadRecipes();
-    loadTags();
+    loadTags().then((value) {
+      selectedTagsId.clear();
+      print(tags.toString() + "NNNN");
+      selectedTagsId.addAll(tags.map((e) => e.id!).toList());
+    });
 
     super.initState();
   }
@@ -101,27 +105,47 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> loadRecipes({searchQuery = ""}) async {
-    DatabaseService.getRecipes(searchQuery: searchQuery)
-        .then((List<Recipe> result) {
-      setState(() {
-        recipes = result;
+    print(selectedTagsId);
+    if (selectedTagsId.length == tags.length) {
+      DatabaseService.getRecipes(searchQuery: searchQuery)
+          .then((List<Recipe> result) {
+        setState(() {
+          recipes = result;
+        });
       });
-    });
+    } else {
+      setState(() {
+        recipes = [];
+      });
+
+      for (var tagId in selectedTagsId) {
+        DatabaseService.getRecipesFromTag(tagId, searchQuery: searchQuery)
+            .then((values) {
+          for (var recipe in values) {
+            if (!recipes.contains(recipe)) {
+              setState(() {
+                recipes.add(recipe);
+              });
+            }
+          }
+        });
+      }
+    }
   }
 
   Future<void> loadTags() async {
-    DatabaseService.getTags().then((List<Tag> result) {
-      setState(() {
-        tags = result;
-      });
+    List<Tag> result = await DatabaseService.getTags();
+    setState(() {
+      tags = result;
     });
   }
 
   Future<void> onTagsSelectionUpdate(List<int> values) async {
     setState(() {
       selectedTagsId = values;
-      print(selectedTagsId);
     });
+    print(selectedTagsId.toString() + " tags selected");
+    loadRecipes();
   }
 
   Future<void> onRecipesSelectionUpdate(List<int> values) async {

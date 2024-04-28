@@ -67,17 +67,17 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                               ingredients: ingredients,
                               source: source))
                           .then((recipeId) {
-                        for (var tag in tags) {
-                          DatabaseService.createTagLink(tag.id!, recipeId);
+                        for (var tagId in selectedTagsId) {
+                          DatabaseService.createTagLink(tagId, recipeId);
                         }
                       });
                     } else {
                       DatabaseService.removeTagLink(
                               recipeId: widget.initialRecipe!.id)
                           .then((value) {
-                        for (var tag in tags) {
+                        for (var tagId in selectedTagsId) {
                           DatabaseService.createTagLink(
-                              tag.id!, widget.initialRecipe!.id!);
+                              tagId, widget.initialRecipe!.id!);
                         }
                       });
                       DatabaseService.updateRecipe(Recipe(
@@ -211,7 +211,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
   Future<void> onTagsSelectionUpdate(List<int> values) async {
     setState(() {
       selectedTagsId = values;
-      print(selectedTagsId);
+      print(selectedTagsId.toString() + "çççççççççççççççç");
     });
   }
 }

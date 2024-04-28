@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:reciper/models/tag.dart';
 import 'package:reciper/screens/pages_layout.dart';
 import 'package:reciper/screens/recipe_editor.dart';
+import 'package:reciper/utilities/database.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/recipe.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -18,6 +20,12 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
   Map<int, bool> checkboxValuesIngredients = {};
   Map<int, bool> checkboxValuesSteps = {};
   bool wakeLock = false;
+  List<Tag> tags = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +41,12 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
     if (stepsList.isEmpty) {
       stepsList.add(widget.recipe.ingredients ?? "");
     }
+
+    DatabaseService.getTagsFromRecipe(widget.recipe.id!).then((values) {
+      setState(() {
+        tags = values;
+      });
+    });
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -91,6 +105,25 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                     ),
                     const SizedBox(
                       height: 15,
+                    ),
+                    Visibility(
+                      visible: tags.isNotEmpty,
+                      child: SizedBox(
+                          height: 50,
+                          child: Row(children: [
+                            const Text("Tags: "),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: tags.length,
+                                itemBuilder: (context, index) {
+                                  return Chip(
+                                      label: Text(tags[index].name ?? ""));
+                                })
+                          ])),
                     ),
                     Text((widget.recipe.servings ?? "").isNotEmpty
                         ? "Servings:  ${widget.recipe.servings}"
