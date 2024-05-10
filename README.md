@@ -3,8 +3,16 @@
 ---
 
 ---
-
 ---
+<a href='https://apt.izzysoft.de/fdroid/index/apk/jdm.apps.reciper/'>
+  <center><img src="https://github.com/judemont/reciper/assets/96385330/9ee04ade-5eef-4a74-953a-5d075c3bb419" width="170"></center>
+</a>
+
+<a href='https://play.google.com/store/apps/details?id=jdm.apps.reciper'>
+  <center><img src="https://github.com/judemont/reciper/assets/96385330/1e08569e-4450-4ba4-ac56-b06b43bb445a" width="170"></center>
+</a>
+
+
 
 **_Simple but Powerful Recipe Management App built with ❤️ and Flutter._**
 
