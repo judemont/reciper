@@ -36,7 +36,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
   @override
   void initState() {
     loadTags();
-    if (widget.initialRecipe != null) {
+    if (widget.initialRecipe != null && widget.initialRecipe?.id != null) {
       DatabaseService.getTagsFromRecipe(widget.initialRecipe!.id!).then((tags) {
         selectedTagsId = tags.map((e) => e.id!).toList();
       });
