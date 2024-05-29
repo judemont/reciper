@@ -19,11 +19,10 @@ class Utils {
     File file = File(filePath);
 
     DatabaseService db = DatabaseService();
-    db.export().then((String result) {
-      var fileBytes = _textFileEncoding.encode(result);
-      file.writeAsBytes(fileBytes);
-      Share.shareXFiles([XFile(filePath)]);
-    });
+    String result = await db.export();
+    var fileBytes = _textFileEncoding.encode(result);
+    await file.writeAsBytes(fileBytes);
+    await Share.shareXFiles([XFile(filePath)]);
   }
 
   static Future<int> userImport() async {
@@ -38,7 +37,7 @@ class Utils {
       var fileBytes = await file.readAsBytes();
       String backupContent = _textFileEncoding.decode(fileBytes);
       DatabaseService db = DatabaseService();
-      db.import(backupContent);
+      await db.import(backupContent);
     }
     return 1;
   }
