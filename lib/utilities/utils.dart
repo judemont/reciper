@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -8,6 +9,8 @@ import 'package:reciper/utilities/database.dart';
 import 'package:share_plus/share_plus.dart';
 
 class Utils {
+  static const Encoding _textFileEncoding = utf8;
+
   static Future<void> userExport() async {
     Directory directory = await getTemporaryDirectory();
     String appDocumentsPath = directory.path;
@@ -17,7 +20,8 @@ class Utils {
 
     DatabaseService db = DatabaseService();
     db.export().then((String result) {
-      file.writeAsString(result);
+      var fileBytes = _textFileEncoding.encode(result);
+      file.writeAsBytes(fileBytes);
       Share.shareXFiles([XFile(filePath)]);
     });
   }
@@ -31,7 +35,8 @@ class Utils {
         await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
 
     if (file != null) {
-      String backupContent = await file.readAsString();
+      var fileBytes = await file.readAsBytes();
+      String backupContent = _textFileEncoding.decode(fileBytes);
       DatabaseService db = DatabaseService();
       db.import(backupContent);
     }
