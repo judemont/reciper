@@ -28,7 +28,7 @@
 - 📝 Organize and store all your favorite recipes in one convenient place.
 - 🌐 Easily import recipes from any website and customize them to your liking.
 - 📤 Export your recipes for easy sharing or backup.
-- 🎨 Enjoy a beautiful and stylish [catppuccin](https://github.com/catppuccin/catppuccin) design .
+- 🎨 Enjoy a beautiful and stylish Material You design .
 - 🆓 Reciper is open source, ad-free, and completely free for a seamless culinary experience.
 
 ### Internet recipes extraction
