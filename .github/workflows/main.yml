@@ -1,6 +1,17 @@
-- name: Step 1 - Echo out a GitHub Actions Secret to the logs
-    run: |
-      echo "The GitHub Action Secret will be masked:  "
-      echo ${{ secrets.KEYSTORE }}
-      echo "Trick to echo GitHub Actions Secret:  "
-      echo ${{secrets.SIGNING_KEY_PASSWORD}} | sed 's/./& /g'
+name: Example Workflow
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Step 1 - Echo out a GitHub Actions Secret to the logs
+        run: |
+          echo "The GitHub Action Secret will be masked:"
+          echo "${{ secrets.KEYSTORE }}"
+          echo "Trick to echo GitHub Actions Secret:"
+          echo "${{ secrets.SIGNING_KEY_PASSWORD }}" | sed 's/./& /g'
