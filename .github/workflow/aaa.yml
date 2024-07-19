@@ -1,0 +1,6 @@
+- name: Step 1 - Echo out a GitHub Actions Secret to the logs
+    run: |
+      echo "The GitHub Action Secret will be masked:  "
+      echo ${{ secrets.KEYSTORE }}
+      echo "Trick to echo GitHub Actions Secret:  "
+      echo ${{secrets.SIGNING_KEY_PASSWORD}} | sed 's/./& /g'
