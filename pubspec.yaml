@@ -37,7 +37,7 @@ dependencies:
   path_provider: ^2.1.2
   pdf: ^3.10.8
   recipe_extractor: ^2.7.0
-  share_plus: ^10.0.0
+  share_plus: ^8.0.3
   sqflite: ^2.3.3
   sqflite_common: ^2.5.4
   sqflite_common_ffi: ^2.3.3
