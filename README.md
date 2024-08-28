@@ -35,14 +35,17 @@
 
 Extracting recipes from a website works using the [recipe_extractor](https://github.com/judemont/recipe_extractor) dart package created by me.
 
+
 | Supported recipe sites : |
 | ------------------------ |
-| allrecipes.com           |
-| bbcgoodfood.com          |
 | marmiton.org             |
-| recipetineats.com        |
-| simplyrecipes.com        |
+| allrecipes.com           |
 | swissmilk.ch             |
+| bbcgoodfood.com          |
+| simplyrecipes.com        |
+| recipetineats.com        |
 | topsecretrecipes.com     |
+| giallozafferano.it       |
+| cucchiaio.it             |
 
 More coming soon...
