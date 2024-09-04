@@ -28,6 +28,7 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+
 android {
     namespace "jdm.apps.reciper"
     compileSdk 34
@@ -55,12 +56,9 @@ android {
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        ndk {
-           abiFilters "armeabi", "armeabi-v7a","arm64-v8a"
-        }
     }
 
-   signingConfigs {
+    signingConfigs {
        release {
            keyAlias keystoreProperties['keyAlias']
            keyPassword keystoreProperties['keyPassword']
@@ -68,18 +66,14 @@ android {
            storePassword keystoreProperties['storePassword']
        }
    }
+
    buildTypes {
        release {
            signingConfig signingConfigs.release
        }
    }
 
-    dependenciesInfo {
-        // Disables dependency metadata when building APKs.
-        includeInApk = false
-        // Disables dependency metadata when building Android App Bundles.
-        includeInBundle = false
-    }
+
 }
 
 flutter {
