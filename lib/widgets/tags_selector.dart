@@ -41,7 +41,7 @@ class _TagsSelectorState extends State<TagsSelector> {
         children: <Widget>[
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.primaryContainer,
             ),
             child: const Text(
               'Tags',
