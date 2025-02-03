@@ -11,7 +11,7 @@ class DatabaseService {
   static Database? db;
 
   static const databaseVersion = 4;
-  List<String> tables = ["Recipes"];
+  List<String> tables = ["Recipes", "Tags", "TagsLinks"];
 
   static Future<Database> initializeDb() async {
     final databasePath = (await getApplicationDocumentsDirectory()).path;
