@@ -29,15 +29,15 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   file_selector: ^1.0.3
-  flex_color_scheme: ^7.3.1
+  flex_color_scheme: ^8.0.2
   flutter:
     sdk: flutter
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.3
   path: ^1.9.0
   path_provider: ^2.1.2
   pdf: ^3.10.8
   recipe_extractor: ^2.8.0
-  share_plus: ^8.0.3
+  share_plus: ^10.0.0
   sqflite: ^2.3.3
   sqflite_common: ^2.5.4
   sqflite_common_ffi: ^2.3.3
@@ -63,7 +63,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
