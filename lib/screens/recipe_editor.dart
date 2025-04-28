@@ -1,4 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:reciper/models/tag.dart';
 import 'package:reciper/screens/pages_layout.dart';
 import 'package:reciper/utilities/database.dart';
@@ -29,6 +33,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
   String steps = "";
   String servings = "";
   String source = "";
+  String image = "";
 
   List<Tag> tags = [];
   List<int> selectedTagsId = [];
@@ -40,8 +45,55 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
       DatabaseService.getTagsFromRecipe(widget.initialRecipe!.id!).then((tags) {
         selectedTagsId = tags.map((e) => e.id!).toList();
       });
+      image = widget.initialRecipe?.image ?? "";
     }
     super.initState();
+  }
+
+  Future<void> saveImage(XFile selectedImage) async {
+    List<int> imageBytes = await selectedImage.readAsBytes();
+    setState(() {
+      image = base64Encode(imageBytes);
+    });
+  }
+
+  Future<void> selectImage() async {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            // height: 200,
+            child: ListView(
+              children: [
+                ListTile(
+                    leading: Icon(Icons.camera),
+                    title: Text("Take a picture"),
+                    onTap: () async {
+                      final ImagePicker picker = ImagePicker();
+                      final XFile? selectedImageX =
+                          await picker.pickImage(source: ImageSource.camera);
+
+                      if (selectedImageX != null) {
+                        saveImage(selectedImageX);
+                      }
+                    }),
+                ListTile(
+                  leading: Icon(Icons.image),
+                  title: Text("Select an image"),
+                  onTap: () async {
+                    final ImagePicker picker = ImagePicker();
+                    final XFile? selectedImageX =
+                        await picker.pickImage(source: ImageSource.gallery);
+
+                    if (selectedImageX != null) {
+                      saveImage(selectedImageX);
+                    }
+                  },
+                )
+              ],
+            ),
+          );
+        });
   }
 
   @override
@@ -139,6 +191,23 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                       ],
                     )),
                 SizedBox(height: fieldsMargin),
+                image.isEmpty
+                    ? ElevatedButton(
+                        onPressed: () {
+                          selectImage();
+                        },
+                        child: const Text("Add Image"))
+                    : Column(children: [
+                        Image.memory(Base64Decoder().convert(image)),
+                        ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                image = "";
+                              });
+                            },
+                            child: const Text("Remove Image"))
+                      ]),
+                SizedBox(height: fieldsMargin),
                 TextFormField(
                   initialValue: widget.initialRecipe?.servings,
                   onSaved: (value) {
@@ -211,7 +280,6 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
   Future<void> onTagsSelectionUpdate(List<int> values) async {
     setState(() {
       selectedTagsId = values;
-      print("$selectedTagsIdçççççççççççççççç");
     });
   }
 }

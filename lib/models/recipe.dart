@@ -5,6 +5,7 @@ class Recipe {
   String? title;
   String? ingredients;
   String? source;
+  String? image;
 
   Recipe(
       {this.id,
@@ -12,7 +13,8 @@ class Recipe {
       this.servings,
       this.title,
       this.ingredients,
-      this.source});
+      this.source,
+      this.image});
 
   Map<String, Object?> toMap() {
     return {
@@ -22,6 +24,7 @@ class Recipe {
       'title': title,
       'ingredients': ingredients,
       'source': source,
+      'image': image,
     };
   }
 
@@ -33,6 +36,7 @@ class Recipe {
       title: map['title'],
       ingredients: map['ingredients'],
       source: map['source'],
+      image: map['image'],
     );
   }
 }

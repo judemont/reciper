@@ -10,7 +10,7 @@ class DatabaseService {
   static const String databaseName = "reciperDB.sqlite";
   static Database? db;
 
-  static const databaseVersion = 4;
+  static const databaseVersion = 5;
   List<String> tables = ["Recipes", "Tags", "TagsLinks"];
 
   static Future<Database> initializeDb() async {
@@ -63,6 +63,9 @@ class DatabaseService {
           )
         """);
       }
+      if (oldVersion < 5) {
+        db.execute("""ALTER TABLE Recipes ADD COLUMN image BLOB """);
+      }
     }
   }
 
@@ -74,7 +77,8 @@ class DatabaseService {
           title TEXT NOT NULL,
           servings TEXT,
           ingredients TEXT,
-          source TEXT
+          source TEXT,
+          image BLOB
       )
     """);
 
