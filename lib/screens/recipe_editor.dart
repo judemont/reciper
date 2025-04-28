@@ -74,7 +74,8 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                           await picker.pickImage(source: ImageSource.camera);
 
                       if (selectedImageX != null) {
-                        saveImage(selectedImageX);
+                        await saveImage(selectedImageX);
+                        if (context.mounted) Navigator.pop(context);
                       }
                     }),
                 ListTile(
@@ -86,7 +87,8 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                         await picker.pickImage(source: ImageSource.gallery);
 
                     if (selectedImageX != null) {
-                      saveImage(selectedImageX);
+                      await saveImage(selectedImageX);
+                      if (context.mounted) Navigator.pop(context);
                     }
                   },
                 )
@@ -112,12 +114,13 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
 
                     if (!widget.isUpdate) {
                       DatabaseService.createRecipe(Recipe(
-                              title: title,
-                              servings: servings,
-                              steps: steps,
-                              ingredients: ingredients,
-                              source: source))
-                          .then((recipeId) {
+                        title: title,
+                        servings: servings,
+                        steps: steps,
+                        ingredients: ingredients,
+                        source: source,
+                        image: image.isNotEmpty ? image : null,
+                      )).then((recipeId) {
                         for (var tagId in selectedTagsId) {
                           DatabaseService.createTagLink(tagId, recipeId);
                         }
@@ -132,12 +135,14 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                         }
                       });
                       DatabaseService.updateRecipe(Recipe(
-                          id: widget.initialRecipe!.id,
-                          servings: servings,
-                          title: title,
-                          steps: steps,
-                          ingredients: ingredients,
-                          source: source));
+                        id: widget.initialRecipe!.id,
+                        servings: servings,
+                        title: title,
+                        steps: steps,
+                        ingredients: ingredients,
+                        source: source,
+                        image: image.isNotEmpty ? image : null,
+                      ));
                     }
 
                     Navigator.of(context).push(

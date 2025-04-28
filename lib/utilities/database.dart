@@ -108,7 +108,8 @@ class DatabaseService {
                 title: recipe.title,
                 ingredients: recipe.ingredients,
                 servings: recipe.servings,
-                source: recipe.source)
+                source: recipe.source,
+                image: recipe.image)
             .toMap());
     return id;
   }
