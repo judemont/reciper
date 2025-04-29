@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:reciper/models/recipe.dart';
 import 'package:reciper/screens/pages_layout.dart';
@@ -23,8 +25,17 @@ class _RecipeListTileState extends State<RecipeListTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: const EdgeInsets.all(8),
       title: Text(widget.recipe.title ?? ""),
       selected: widget.selectedRecipesID.contains(widget.recipe.id),
+      leading: widget.recipe.image != null
+          ? Image.memory(
+              Base64Decoder().convert(widget.recipe.image!),
+              width: 120,
+              height: 120,
+              fit: BoxFit.cover,
+            )
+          : SizedBox(width: 120, child: Icon(Icons.cake, size: 50)),
       onLongPress: () {
         if (widget.selectedRecipesID.contains(widget.recipe.id)) {
           widget.selectedRecipesID.remove(widget.recipe.id);
