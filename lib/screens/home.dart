@@ -55,16 +55,16 @@ class _HomePageState extends State<HomePage> {
                             content: const Text("Are you sure?"),
                             actions: [
                               TextButton(
+                                  onPressed: () => Navigator.pop(context),
+                                  child: const Text("Cancel")),
+                              TextButton(
                                   onPressed: () =>
                                       removeSelectedRecipes(selectedRecipes)
                                           .then((value) {
                                         loadRecipes();
                                         Navigator.pop(context);
                                       }),
-                                  child: const Text("Delete")),
-                              TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: const Text("Cancel")),
+                                  child: const Text("Yes")),
                             ],
                           )),
                   icon: const Icon(Icons.delete)),

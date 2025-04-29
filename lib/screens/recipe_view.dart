@@ -61,6 +61,30 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
           title: const Text("Reciper"),
           centerTitle: true,
           actions: [
+            IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: const Text("Delete recipe"),
+                          content: const Text("Are you sure?"),
+                          actions: [
+                            TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text("Cancel")),
+                            TextButton(
+                                onPressed: () {
+                                  DatabaseService.removeRecipe(
+                                      widget.recipe.id!);
+                                  widget.reloadRecipes();
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("Yes")),
+                          ],
+                        ));
+              },
+            ),
             Tooltip(
                 message: "Prevent your phone from going to sleep",
                 child: IconButton(
@@ -115,6 +139,7 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                       ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: Image.memory(
+                            height: 200,
                             imageBytes!,
                           )),
                     const SizedBox(

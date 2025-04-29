@@ -198,6 +198,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                             onTagsSelectionUpdate: onTagsSelectionUpdate)
                       ],
                     )),
+                SizedBox(height: fieldsMargin),
                 image.isEmpty
                     ? ElevatedButton(
                         onPressed: () {
