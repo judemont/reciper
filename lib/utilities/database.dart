@@ -195,6 +195,7 @@ class DatabaseService {
       title: queryResult[0]["title"] as String?,
       ingredients: queryResult[0]["ingredients"] as String?,
       source: queryResult[0]["source"] as String?,
+      image: queryResult[0]["image"] as String?,
     );
   }
 

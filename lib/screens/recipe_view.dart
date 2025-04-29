@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:reciper/models/tag.dart';
 import 'package:reciper/screens/pages_layout.dart';
@@ -21,9 +24,13 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
   Map<int, bool> checkboxValuesSteps = {};
   bool wakeLock = false;
   List<Tag> tags = [];
+  Uint8List? imageBytes;
 
   @override
   void initState() {
+    if (widget.recipe.image != null) {
+      imageBytes = Base64Decoder().convert(widget.recipe.image!);
+    }
     super.initState();
   }
 
@@ -103,6 +110,8 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                       style: const TextStyle(
                           fontSize: 30, fontWeight: FontWeight.bold),
                     ),
+                    if (imageBytes != null) const SizedBox(height: 15),
+                    if (imageBytes != null) Image.memory(imageBytes!),
                     const SizedBox(
                       height: 15,
                     ),
