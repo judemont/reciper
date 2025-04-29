@@ -33,9 +33,7 @@ class DatabaseService {
   }
 
   static openDB(Database db) {
-    db.rawQuery('SELECT * FROM sqlite_master ORDER BY name;').then((value) {
-      print(value);
-    });
+    db.rawQuery('SELECT * FROM sqlite_master ORDER BY name;').then((value) {});
   }
 
   static updateTables(Database db, int oldVersion, int newVersion) {
@@ -97,8 +95,6 @@ class DatabaseService {
   }
 
   static Future<int> createRecipe(Recipe recipe) async {
-    print("CREATE");
-
     final db = await DatabaseService.initializeDb();
 
     final id = await db.insert(
@@ -216,24 +212,18 @@ class DatabaseService {
   }
 
   static Future<void> updateRecipe(Recipe recipe) async {
-    print("UPDATE");
-
     final db = await DatabaseService.initializeDb();
     db.update("Recipes", recipe.toMap(),
         where: 'id = ?', whereArgs: [recipe.id]);
   }
 
   static Future<void> updateTag(Tag tag) async {
-    print("UPDATE");
-
     final db = await DatabaseService.initializeDb();
 
     db.update("Tags", tag.toMap(), where: 'id = ?', whereArgs: [tag.id]);
   }
 
   Future<String> export({bool isEncrypted = false}) async {
-    print('GENERATE BACKUP');
-
     var dbs = await DatabaseService.initializeDb();
 
     List data = [];
@@ -249,18 +239,15 @@ class DatabaseService {
     List backups = [tables, data];
 
     String jsonData = jsonEncode(backups);
-    print(jsonData);
     return jsonData;
   }
 
   Future<void> import(String backup) async {
-    print(backup);
     var dbs = await DatabaseService.initializeDb();
 
     Batch batch = dbs.batch();
 
     List jsonData = jsonDecode(backup);
-    print(jsonData);
     List<Recipe> actualRecipes = await DatabaseService.getRecipes();
 
     for (var i = 0; i < jsonData[0].length; i++) {
@@ -268,14 +255,14 @@ class DatabaseService {
         if (actualRecipes
             .where((recipe) => recipe.title == jsonData[1][i][k]["title"])
             .isEmpty) {
-          jsonData[1][i][k]["id"] = null;
+          if (jsonData[1][i][k]["id"] != null) {
+            jsonData[1][i][k]["id"] = null;
+          }
           batch.insert(jsonData[0][i], jsonData[1][i][k]);
         }
       }
     }
 
     await batch.commit(continueOnError: false, noResult: true);
-
-    print('RESTORE BACKUP');
   }
 }

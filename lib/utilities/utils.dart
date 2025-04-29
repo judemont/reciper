@@ -61,11 +61,11 @@ class Utils {
                       style: pw.TextStyle(
                           fontSize: 35, fontWeight: pw.FontWeight.bold)),
                   pw.SizedBox(height: 20),
-                  pw.Image(
-                      pw.MemoryImage(
-                          Base64Decoder().convert(recipe.image ?? "")),
-                      width: 300,
-                      height: 300),
+                  if (recipe.image != null)
+                    pw.Image(
+                        pw.MemoryImage(Base64Decoder().convert(recipe.image!)),
+                        width: 300,
+                        height: 300),
                   pw.SizedBox(height: 60),
                   pw.Text("Ingredients : ",
                       style: pw.TextStyle(
