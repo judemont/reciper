@@ -110,8 +110,13 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                       style: const TextStyle(
                           fontSize: 30, fontWeight: FontWeight.bold),
                     ),
-                    if (imageBytes != null) const SizedBox(height: 15),
-                    if (imageBytes != null) Image.memory(imageBytes!),
+                    if (imageBytes != null) const SizedBox(height: 25),
+                    if (imageBytes != null)
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.memory(
+                            imageBytes!,
+                          )),
                     const SizedBox(
                       height: 15,
                     ),

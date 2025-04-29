@@ -39,11 +39,15 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
 
   @override
   void initState() {
+    print(widget.initialRecipe);
     loadTags();
-    if (widget.initialRecipe != null && widget.initialRecipe?.id != null) {
-      DatabaseService.getTagsFromRecipe(widget.initialRecipe!.id!).then((tags) {
-        selectedTagsId = tags.map((e) => e.id!).toList();
-      });
+    if (widget.initialRecipe != null) {
+      if (widget.initialRecipe?.id != null) {
+        DatabaseService.getTagsFromRecipe(widget.initialRecipe!.id!)
+            .then((tags) {
+          selectedTagsId = tags.map((e) => e.id!).toList();
+        });
+      }
       image = widget.initialRecipe?.image ?? "";
     }
     super.initState();
@@ -194,7 +198,6 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                             onTagsSelectionUpdate: onTagsSelectionUpdate)
                       ],
                     )),
-                SizedBox(height: fieldsMargin),
                 image.isEmpty
                     ? ElevatedButton(
                         onPressed: () {

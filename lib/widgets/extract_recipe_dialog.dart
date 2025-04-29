@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:recipe_extractor/recipe_extractor.dart';
 import 'package:reciper/models/recipe.dart';
 import 'package:reciper/screens/pages_layout.dart';
 import 'package:reciper/screens/recipe_editor.dart';
+import 'package:http/http.dart' as http;
 
 class ExtractRecipeDialog extends StatefulWidget {
   const ExtractRecipeDialog({super.key});
@@ -60,6 +63,15 @@ class _ExtractRecipeDialogState extends State<ExtractRecipeDialog> {
                 ScaffoldMessenger.of(context).showSnackBar(errorBar);
               }
             } else {
+              String? imageBase64;
+              final response =
+                  await http.get(Uri.parse(recipeData.image ?? ""));
+              print(recipeData.image);
+              if (response.statusCode == 200) {
+                imageBase64 = base64Encode(response.bodyBytes);
+              } else {
+                print("Failed to load image");
+              }
               if (context.mounted) {
                 Navigator.push(
                   context,
@@ -75,6 +87,7 @@ class _ExtractRecipeDialogState extends State<ExtractRecipeDialog> {
                                 steps:
                                     (recipeData.instructions ?? []).join("\n"),
                                 source: recipeData.source,
+                                image: imageBase64,
                               ),
                             ),
                           )),
