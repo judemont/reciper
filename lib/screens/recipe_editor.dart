@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -204,6 +203,7 @@ class _RecipeEditorPageState extends State<RecipeEditorPage> {
                         child: const Text("Add Image"))
                     : Column(children: [
                         Image.memory(Base64Decoder().convert(image)),
+                        SizedBox(height: fieldsMargin),
                         ElevatedButton(
                             onPressed: () {
                               setState(() {
