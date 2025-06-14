@@ -1,7 +1,7 @@
 # 🍳 Reciper - Your Ultimate Kitchen Companion! 📱
 
 ---
-
+> If anyone knows why tf Github thinks Reciper is in MakeFile when there are infinitely more Dart, please tell me.
 ---
 ---
 <a href='https://apt.izzysoft.de/fdroid/index/apk/jdm.apps.reciper/'>
