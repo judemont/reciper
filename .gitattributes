@@ -1,0 +1,19 @@
+# Ensure all Dart files are detected as Dart
+*.dart linguist-language=Dart
+
+# Exclude generated Flutter build outputs
+build/** linguist-generated
+**/flutter_assets/** linguist-generated
+**/app.so linguist-generated
+**/libs.jar linguist-generated
+**/flutter_build.d linguist-generated
+**/NOTICES.Z linguist-generated
+
+# Exclude generated Fastlane metadata and images
+fastlane/metadata/** linguist-generated
+*.png linguist-generated
+*.js linguist-generated
+
+# Exclude Android build intermediates
+android/app/build/** linguist-generated
+android/gradle/** linguist-generated
