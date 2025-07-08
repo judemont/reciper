@@ -45,3 +45,6 @@ app.*.map.json
 buildProd.gradle
 
 linux/
+windows/
+ios/
+macos/
