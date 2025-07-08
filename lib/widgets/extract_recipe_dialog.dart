@@ -64,13 +64,15 @@ class _ExtractRecipeDialogState extends State<ExtractRecipeDialog> {
               }
             } else {
               String? imageBase64;
-              final response =
-                  await http.get(Uri.parse(recipeData.image ?? ""));
-              print(recipeData.image);
-              if (response.statusCode == 200) {
-                imageBase64 = base64Encode(response.bodyBytes);
-              } else {
-                print("Failed to load image");
+              if (recipeData.image != null && recipeData.image!.isNotEmpty) {
+                final response =
+                    await http.get(Uri.parse(recipeData.image ?? ""));
+                print(recipeData.image);
+                if (response.statusCode == 200) {
+                  imageBase64 = base64Encode(response.bodyBytes);
+                } else {
+                  print("Failed to load image");
+                }
               }
               if (context.mounted) {
                 Navigator.push(
