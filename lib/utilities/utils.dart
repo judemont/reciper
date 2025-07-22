@@ -76,6 +76,52 @@ class Utils {
     await Share.shareXFiles([XFile(filePath)]);
   }
 
+  static Future<void> userPdfExportRecipe(Recipe recipe) async {
+    Directory directory = await getTemporaryDirectory();
+    String appDocumentsPath = directory.path;
+
+    String recipeName = recipe.title ?? "_";
+
+    String filePath = '$appDocumentsPath/$recipeName.pdf';
+
+    File file = File(filePath);
+
+    final pdf = pw.Document();
+    List<Recipe> recipes = await DatabaseService.getRecipes();
+
+    pdf.addPage(pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) => [
+              pw.ListView(children: [
+                pw.Text(recipe.title ?? "",
+                    style: pw.TextStyle(
+                        fontSize: 35, fontWeight: pw.FontWeight.bold)),
+                pw.SizedBox(height: 20),
+                if (recipe.image != null)
+                  pw.Image(
+                      pw.MemoryImage(Base64Decoder().convert(recipe.image!)),
+                      width: 300,
+                      height: 300),
+                pw.SizedBox(height: 60),
+                pw.Text("Ingredients : ",
+                    style: pw.TextStyle(
+                        fontSize: 20, fontWeight: pw.FontWeight.bold)),
+                pw.SizedBox(height: 20),
+                pw.Text(recipe.ingredients ?? "",
+                    overflow: pw.TextOverflow.span),
+                pw.SizedBox(height: 40),
+                pw.Text("Instructions : ",
+                    style: pw.TextStyle(
+                        fontSize: 20, fontWeight: pw.FontWeight.bold)),
+                pw.SizedBox(height: 20),
+                pw.Text(recipe.steps ?? "", overflow: pw.TextOverflow.span),
+              ])
+            ]));
+
+    await file.writeAsBytes(await pdf.save());
+    Share.shareXFiles([XFile(filePath)]);
+  }
+
   static Future<void> userPdfExport() async {
     Directory directory = await getTemporaryDirectory();
     String appDocumentsPath = directory.path;

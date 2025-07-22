@@ -255,7 +255,8 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
       case "Share recipe":
         Utils.userRecipeExport(widget.recipe);
         break;
-      case "Share as PDF":
+      case "Share recipe as PDF":
+        Utils.userPdfExportRecipe(widget.recipe);
         break;
     }
   }
