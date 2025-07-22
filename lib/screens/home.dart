@@ -77,8 +77,7 @@ class _HomePageState extends State<HomePage> {
               onTagsUpdate: loadTags,
               selectedTagsId: selectedTagsId),
         ),
-        body: SingleChildScrollView(
-            child: Column(
+        body: Column(
           children: [
             const SizedBox(
               height: 20,
@@ -112,14 +111,15 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
-            RecipeListView(
+            Expanded(
+                child: RecipeListView(
               reloadRecipes: loadRecipes,
               recipes: recipes,
               onRecipesSelectionUpdate: onRecipesSelectionUpdate,
               selectedRecipesID: selectedRecipes,
-            ),
+            )),
           ],
-        )));
+        ));
   }
 
   Future<void> loadRecipes({searchQuery = ""}) async {
