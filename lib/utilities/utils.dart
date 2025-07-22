@@ -25,6 +25,25 @@ class Utils {
     await Share.shareXFiles([XFile(filePath)]);
   }
 
+  static Future<Recipe?> userRecipeImport() async {
+    const XTypeGroup typeGroup = XTypeGroup(
+      label: 'Reciper export',
+      extensions: <String>['json'],
+    );
+    final XFile? file =
+        await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
+
+    if (file != null) {
+      var fileBytes = await file.readAsBytes();
+      String backupContent = _textFileEncoding.decode(fileBytes);
+
+      Map<String, dynamic> jsonData = jsonDecode(backupContent);
+      Recipe recipe = Recipe.fromMap(jsonData);
+      return recipe;
+    }
+    return null;
+  }
+
   static Future<int> userImport() async {
     const XTypeGroup typeGroup = XTypeGroup(
       label: 'Reciper export',
