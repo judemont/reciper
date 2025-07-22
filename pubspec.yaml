@@ -29,7 +29,6 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   file_selector: ^1.0.3
-  flex_color_scheme: ^8.0.2
   flutter:
     sdk: flutter
   flutter_launcher_icons: ^0.14.3
