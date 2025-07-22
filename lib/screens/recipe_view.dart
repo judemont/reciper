@@ -6,6 +6,7 @@ import 'package:reciper/models/tag.dart';
 import 'package:reciper/screens/pages_layout.dart';
 import 'package:reciper/screens/recipe_editor.dart';
 import 'package:reciper/utilities/database.dart';
+import 'package:reciper/utilities/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/recipe.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -122,6 +123,19 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                         ));
               },
             ),
+            PopupMenuButton(
+              icon: Icon(Icons.share),
+              onSelected: handleShareMenuClick,
+              itemBuilder: (BuildContext context) {
+                return {'Share recipe', "Share recipe as PDF"}
+                    .map((String choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Text(choice),
+                  );
+                }).toList();
+              },
+            )
           ],
         ),
         body: SingleChildScrollView(
@@ -234,5 +248,15 @@ class _RecipeViewPageState extends State<RecipeViewPage> {
                             }))
                   ],
                 ))));
+  }
+
+  void handleShareMenuClick(String value) {
+    switch (value) {
+      case "Share recipe":
+        Utils.userRecipeExport(widget.recipe);
+        break;
+      case "Share as PDF":
+        break;
+    }
   }
 }

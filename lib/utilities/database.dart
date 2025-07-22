@@ -265,4 +265,8 @@ class DatabaseService {
 
     await batch.commit(continueOnError: false, noResult: true);
   }
+
+  Future<String> exportRecipe(Recipe recipe) async {
+    return jsonEncode(recipe.toMap());
+  }
 }

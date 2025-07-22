@@ -42,6 +42,20 @@ class Utils {
     return 1;
   }
 
+  static Future<void> userRecipeExport(Recipe recipe) async {
+    Directory directory = await getTemporaryDirectory();
+    String appDocumentsPath = directory.path;
+    String filePath = '$appDocumentsPath/Reciper_Export.json';
+
+    File file = File(filePath);
+
+    DatabaseService db = DatabaseService();
+    String result = await db.exportRecipe(recipe);
+    var fileBytes = _textFileEncoding.encode(result);
+    await file.writeAsBytes(fileBytes);
+    await Share.shareXFiles([XFile(filePath)]);
+  }
+
   static Future<void> userPdfExport() async {
     Directory directory = await getTemporaryDirectory();
     String appDocumentsPath = directory.path;
