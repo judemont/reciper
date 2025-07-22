@@ -64,7 +64,8 @@ class Utils {
   static Future<void> userRecipeExport(Recipe recipe) async {
     Directory directory = await getTemporaryDirectory();
     String appDocumentsPath = directory.path;
-    String filePath = '$appDocumentsPath/Reciper_Export.json';
+    String recipeName = recipe.title ?? "_";
+    String filePath = '$appDocumentsPath/$recipeName Reciper.json';
 
     File file = File(filePath);
 

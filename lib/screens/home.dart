@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:reciper/models/tag.dart';
+import 'package:reciper/screens/pages_layout.dart';
+import 'package:reciper/screens/recipe_editor.dart';
+import 'package:reciper/screens/recipe_view.dart';
+import 'package:reciper/utilities/utils.dart';
 import 'package:reciper/widgets/tags_selector.dart';
 import '../utilities/database.dart';
 import '../models/recipe.dart';
@@ -68,6 +72,17 @@ class _HomePageState extends State<HomePage> {
                             ],
                           )),
                   icon: const Icon(Icons.delete)),
+            PopupMenuButton(
+              onSelected: handleTopMenuClick,
+              itemBuilder: (BuildContext context) {
+                return {'Import a recipe'}.map((String choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Text(choice),
+                  );
+                }).toList();
+              },
+            )
           ],
         ),
         drawer: Drawer(
@@ -183,5 +198,22 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       selectedRecipes = [];
     });
+  }
+
+  Future<void> handleTopMenuClick(String value) async {
+    switch (value) {
+      case 'Import a recipe':
+        Recipe? importedRecipe = await Utils.userRecipeImport() ?? Recipe();
+        Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) => PagesLayout(
+                    displayBottomNavBar: false,
+                    child: RecipeEditorPage(
+                      initialRecipe: importedRecipe,
+                    ),
+                  )),
+        );
+        break;
+    }
   }
 }
