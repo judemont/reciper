@@ -49,3 +49,4 @@ Extracting recipes from a website works using the [recipe_extractor](https://git
 | cucchiaio.it             |
 
 More coming soon...
+---
